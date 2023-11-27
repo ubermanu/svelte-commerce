@@ -1,5 +1,5 @@
 import { PRIVATE_MAGENTO_BASE_URL } from '$env/static/private'
-import request from 'graphql-request'
+import request, { gql } from 'graphql-request'
 
 type MagentoFetchOptions = {
   query: string
@@ -18,4 +18,20 @@ export async function magentoFetch({
     variables,
     headers
   )
+}
+
+export async function getCmsPage(slug: string) {
+  const { cmsPage } = await magentoFetch({
+    query: gql`
+      query getCmsPage($slug: String!) {
+        cmsPage(identifier: $slug) {
+          title
+          content
+        }
+      }
+    `,
+    variables: { slug },
+  })
+
+  return cmsPage
 }
