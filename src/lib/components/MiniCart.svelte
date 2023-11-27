@@ -4,7 +4,7 @@
   import { writable } from 'svelte/store'
 
   export let cart: any
-  console.log(cart)
+  // console.log(cart)
 
   // Create a store to keep track of the visibility of the mini cart
   const visible = writable(false)

@@ -1,5 +1,6 @@
 <script>
   import MiniCart from '$lib/components/MiniCart.svelte'
+  import { page } from '$app/stores'
 
   const links = [
     { name: 'Home', url: '/' },
@@ -30,6 +31,18 @@
   <MiniCart cart={data.cart} />
 </header>
 
+<section class="search">
+  <form action="/search" method="get">
+    <input
+      type="text"
+      name="q"
+      placeholder="Search..."
+      value={$page.url.searchParams.get('q')}
+    />
+    <button type="submit">Search</button>
+  </form>
+</section>
+
 <slot />
 
 <style>
@@ -46,5 +59,9 @@
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  .search {
+    margin-bottom: 1.6rem;
   }
 </style>

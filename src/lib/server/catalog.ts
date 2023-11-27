@@ -88,3 +88,55 @@ export async function getCategoryProducts(id: number) {
 
   return category?.products ?? []
 }
+
+interface Pagination {
+  pageSize: number
+  currentPage: number
+}
+
+export async function searchProducts(
+  query: string,
+  { pageSize, currentPage }: Pagination
+) {
+  const { products } = await magentoFetch({
+    query: gql`
+      query searchProducts(
+        $query: String!
+        $pageSize: Int!
+        $currentPage: Int!
+      ) {
+        products(
+          search: $query
+          pageSize: $pageSize
+          currentPage: $currentPage
+        ) {
+          total_count
+          items {
+            id
+            name
+            sku
+            price_range {
+              minimum_price {
+                regular_price {
+                  value
+                  currency
+                }
+              }
+            }
+            image {
+              url
+            }
+            url_key
+          }
+        }
+      }
+    `,
+    variables: {
+      query,
+      pageSize: pageSize ?? 16,
+      currentPage: currentPage ?? 1,
+    },
+  })
+
+  return products
+}
