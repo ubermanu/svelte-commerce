@@ -31,7 +31,6 @@ export async function getCustomer(token: string) {
           }
         }
       `,
-      variables: {},
       headers: {
         authorization: `Bearer ${token}`,
       },
