@@ -14,6 +14,18 @@
 
 <Breadcrumbs items={breadcrumbs} />
 
-<h1>{data.product.name}</h1>
-<p>{@html data.product.description.html}</p>
+<img class="product image" src={data.product.image.url} alt="" />
+
+<h1 class="product name">{data.product.name}</h1>
+<p class="product description">{@html data.product.description.html}</p>
+
 <PriceBox priceRange={data.product.price_range} />
+
+<style>
+  .product.image {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 500px;
+  }
+</style>
