@@ -1,4 +1,4 @@
-import { getProduct } from '$lib/server/magento'
+import { getProduct } from '$lib/server/catalog'
 import type { ServerLoad } from '@sveltejs/kit'
 import { error } from '@sveltejs/kit'
 

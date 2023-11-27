@@ -1,11 +1,12 @@
-import { magentoFetch } from '$lib/server/magento'
-import type { Handle, RequestEvent } from '@sveltejs/kit'
+import { getCustomer } from '$lib/server/customer'
+import type { Handle } from '@sveltejs/kit'
 
 export const handle: Handle = async ({ event, resolve }) => {
   // TODO: Refresh the token if it's expired
+  const token = event.cookies.get('token')
 
   // Set the customer on the event locals
-  event.locals.customer = await getCustomer(event)
+  event.locals.customer = await getCustomer(token ?? '')
   event.locals.loggedIn = !!event.locals.customer
 
   // If the user is not logged in, remove the token cookie
@@ -14,48 +15,4 @@ export const handle: Handle = async ({ event, resolve }) => {
   }
 
   return resolve(event)
-}
-
-export async function getCustomer(event: RequestEvent) {
-  const token = event.cookies.get('token')
-
-  if (!token) {
-    return null
-  }
-
-  try {
-    const { customer } = await magentoFetch({
-      query: `
-        {
-          customer {
-            firstname
-            lastname
-            suffix
-            email
-            addresses {
-              firstname
-              lastname
-              street
-              city
-              region {
-                region_code
-                region
-              }
-              postcode
-              country_code
-              telephone
-            }
-          }
-        }`,
-      variables: {},
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    })
-
-    return customer
-  } catch (error: any) {
-    // console.error(error)
-    return null
-  }
 }

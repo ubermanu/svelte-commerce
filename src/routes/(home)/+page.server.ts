@@ -1,4 +1,4 @@
-import { getCmsPage } from '$lib/server/magento'
+import { getCmsPage } from '$lib/server/cms'
 import type { ServerLoad } from '@sveltejs/kit'
 
 export const load: ServerLoad = async () => {
