@@ -24,6 +24,10 @@ export const actions: Actions = {
         },
       })
 
+      // Remove the cart_id cookie so a new cart is created for the customer
+      // TODO: Merge the guest cart with the customer cart
+      cookies.delete('cart_id')
+
       cookies.set('token', customer.token, {
         path: '/',
         maxAge: 60 * 60 * 24, // 1 day
