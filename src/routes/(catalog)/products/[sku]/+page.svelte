@@ -24,7 +24,7 @@
 
 <form action="/api/cart?/addProduct" method="POST">
   <input type="hidden" name="return_url" value={$page.url.pathname} />
-  <input type="hidden" name="product_id" value={data.product.id} />
+  <input type="hidden" name="sku" value={data.product.sku} />
   <input type="number" name="qty" value="1" />
   <button type="submit">Add to cart</button>
 </form>

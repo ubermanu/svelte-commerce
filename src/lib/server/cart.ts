@@ -90,12 +90,12 @@ export async function getCart(cartId: string, token?: string) {
 
 interface AddProductToCartPayload {
   cartId: string
-  productId: number
+  sku: string
   quantity: number
 }
 
 export async function addProductToCart(
-  { cartId, productId, quantity }: AddProductToCartPayload,
+  { cartId, sku, quantity }: AddProductToCartPayload,
   token?: string
 ) {
   const { addProductsToCart: cart } = await magentoFetch({
@@ -105,6 +105,9 @@ export async function addProductToCart(
           cart {
             items {
               id
+              product {
+                sku
+              }
               quantity
             }
           }
@@ -115,7 +118,7 @@ export async function addProductToCart(
       cartId,
       cartItem: {
         quantity,
-        sku: productId,
+        sku,
       },
     },
     headers: token ? { authorization: `Bearer ${token}` } : {},

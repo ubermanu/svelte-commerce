@@ -4,10 +4,10 @@ import type { Handle, RequestEvent } from '@sveltejs/kit'
 
 export const handle: Handle = async ({ event, resolve }) => {
   // TODO: Refresh the token if it's expired
-  const token = event.cookies.get('token')
+  const token = event.cookies.get('token') || ''
 
   // Set the customer on the event locals
-  event.locals.customer = await getCustomer(token ?? '')
+  event.locals.customer = await getCustomer(token)
   event.locals.loggedIn = !!event.locals.customer
 
   // If the user is not logged in, remove the token cookie

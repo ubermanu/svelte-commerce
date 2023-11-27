@@ -15,18 +15,18 @@ export const actions: Actions = {
 
     const { cartId } = locals
     const token = cookies.get('token')
-    console.log(token, locals)
 
     const returnUrl = String(formData.get('return_url'))
-    const productId = Number(formData.get('product_id'))
+    const sku = String(formData.get('sku'))
     const quantity = Number(formData.get('qty')) || 1
 
     const result = await addProductToCart(
-      { cartId, productId, quantity },
+      { cartId, sku, quantity },
       locals.loggedIn ? token : ''
     )
 
-    console.log(result)
+    // TODO: Show success message
+    console.log('addProductToCart', result)
 
     throw redirect(302, returnUrl ?? '/')
   },
