@@ -55,3 +55,36 @@ export async function getCategory(urlKey: string) {
 
   return categories.items[0]
 }
+
+export async function getCategoryProducts(id: number) {
+  const { category } = await magentoFetch({
+    query: gql`
+      query getCategoryProducts($id: Int!) {
+        category(id: $id) {
+          products {
+            items {
+              id
+              name
+              sku
+              price_range {
+                minimum_price {
+                  regular_price {
+                    value
+                    currency
+                  }
+                }
+              }
+              image {
+                url
+              }
+              url_key
+            }
+          }
+        }
+      }
+    `,
+    variables: { id },
+  })
+
+  return category?.products ?? []
+}

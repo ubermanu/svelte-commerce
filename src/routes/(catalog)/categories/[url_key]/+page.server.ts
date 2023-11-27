@@ -1,4 +1,4 @@
-import { getCategory } from '$lib/server/catalog'
+import { getCategory, getCategoryProducts } from '$lib/server/catalog'
 import type { ServerLoad } from '@sveltejs/kit'
 import { error } from '@sveltejs/kit'
 
@@ -15,6 +15,8 @@ export const load: ServerLoad = async ({ params }) => {
 
   return {
     category,
-    // TODO: Load products asynchronously
+    streamed: {
+      products: await getCategoryProducts(category.id),
+    },
   }
 }
