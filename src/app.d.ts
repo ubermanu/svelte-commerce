@@ -7,10 +7,12 @@ declare global {
       customer: any | null
       loggedIn: boolean
       cartId: string
+      cart: any | null
     }
     interface PageData {
       cmsPage?: any
       customer: any | null
+      cart: any | null
     }
     // interface Platform {}
   }

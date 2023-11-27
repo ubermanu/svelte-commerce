@@ -1,4 +1,6 @@
 <script>
+  import MiniCart from '$lib/components/MiniCart.svelte'
+
   const links = [
     { name: 'Home', url: '/' },
     { name: 'Login', url: '/customer/account/login' },
@@ -24,6 +26,8 @@
       <a href="/customer/account/logout">Logout</a>
     </div>
   {/if}
+
+  <MiniCart cart={data.cart} />
 </header>
 
 <slot />

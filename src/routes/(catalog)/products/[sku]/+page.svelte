@@ -1,6 +1,7 @@
 <script>
   import Breadcrumbs from '$lib/components/Breadcrumbs.svelte'
   import PriceBox from '$lib/components/PriceBox.svelte'
+  import { page } from '$app/stores'
 
   export let data
 
@@ -20,6 +21,13 @@
 <p class="product description">{@html data.product.description.html}</p>
 
 <PriceBox priceRange={data.product.price_range} />
+
+<form action="/api/cart?/addProduct" method="POST">
+  <input type="hidden" name="return_url" value={$page.url.pathname} />
+  <input type="hidden" name="product_id" value={data.product.id} />
+  <input type="number" name="qty" value="1" />
+  <button type="submit">Add to cart</button>
+</form>
 
 <style>
   .product.image {
