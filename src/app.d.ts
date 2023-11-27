@@ -6,6 +6,7 @@ declare global {
     interface Locals {
       customer: any | null
       loggedIn: boolean
+      cartId: string
     }
     interface PageData {
       cmsPage?: any

@@ -1,7 +1,7 @@
 import { magentoFetch } from '$lib/server/magento'
 import { gql } from 'graphql-request'
 
-const createCustomerCart = async () => {
+export async function createCustomerCart(token: string): Promise<string> {
   const { createCustomerCart: cartId } = await magentoFetch({
     query: gql`
       {
@@ -10,20 +10,21 @@ const createCustomerCart = async () => {
         }
       }
     `,
-    variables: {},
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
   })
 
   return cartId
 }
 
-const createGuestCart = async () => {
+export async function createGuestCart(): Promise<string> {
   const { createEmptyCart: cartId } = await magentoFetch({
     query: gql`
       mutation {
         createEmptyCart
       }
     `,
-    variables: {},
   })
 
   return cartId
