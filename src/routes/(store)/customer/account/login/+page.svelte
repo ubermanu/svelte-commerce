@@ -1,4 +1,8 @@
 <script>
+  import PageTitle from '$lib/components/PageTitle.svelte'
+  import BlockCustomerLogin from './BlockCustomerLogin.svelte'
+  import BlockNewCustomer from './BlockNewCustomer.svelte'
+
   export let data
   export let form
 </script>
@@ -19,11 +23,9 @@
   <p>Login successful</p>
 {/if}
 
-<form action="?/login" method="post">
-  <fieldset>
-    <legend>Login</legend>
-    <input type="email" name="email" placeholder="Email" />
-    <input type="password" name="password" placeholder="Password" />
-    <input type="submit" value="Login" />
-  </fieldset>
-</form>
+<PageTitle>Customer Login</PageTitle>
+
+<div class="md:grid md:grid-cols-2 md:gap-6 max-md:space-y-6">
+  <BlockCustomerLogin />
+  <BlockNewCustomer />
+</div>
