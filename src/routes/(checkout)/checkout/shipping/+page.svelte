@@ -102,24 +102,24 @@
 <h3>Shipping Methods</h3>
 {#if data.shippingMethods}
   <form action="?/setShippingMethod" method="post">
-    <fieldset>
-      <legend>Shipping Method</legend>
-      {#each data.shippingMethods as method}
-        <div class="field">
-          <div class="control">
-            <label>
+    <table>
+      <tbody>
+        {#each data.shippingMethods as method}
+          <tr>
+            <td>
               <input
                 type="radio"
-                name="method"
+                name="code"
                 value={method.carrier_code + '_' + method.method_code}
                 required
               />
-              {method.carrier_title} - {method.method_title}
-            </label>
-          </div>
-        </div>
-      {/each}
-    </fieldset>
+            </td>
+            <td>{method.carrier_title}</td>
+            <td>{method.method_title}</td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
     <button type="submit">Set shipping method</button>
   </form>
 {/if}

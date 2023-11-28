@@ -1,7 +1,8 @@
 import {
   getShippingAddresses,
   getShippingMethods,
-  setShippingAddressesOnCart,
+  setShippingAddressOnCart,
+  setShippingMethodOnCart,
 } from '$lib/server/checkout'
 import type { Actions, ServerLoad } from '@sveltejs/kit'
 
@@ -37,7 +38,7 @@ export const actions: Actions = {
     const token = cookies.get('token')
 
     try {
-      await setShippingAddressesOnCart(cartId, address, token)
+      await setShippingAddressOnCart(cartId, address, token)
     } catch (err) {
       return {
         errors: ["Couldn't set shipping address"],
@@ -51,6 +52,29 @@ export const actions: Actions = {
 
   setShippingMethod: async ({ request, locals, cookies }) => {
     const formData = await request.formData()
+
+    const code = formData.get('code') as string
+    const cartId = locals.cartId
+    const token = cookies.get('token')
+
+    const codes = code.split('_')
+
+    const shippingMethod = {
+      carrierCode: codes[0],
+      methodCode: codes[1],
+    }
+
+    try {
+      await setShippingMethodOnCart(cartId, shippingMethod, token)
+    } catch (err) {
+      return {
+        errors: ["Couldn't set shipping method"],
+      }
+    }
+
+    return {
+      success: true,
+    }
   },
 
   nextStep: async ({ request }) => {

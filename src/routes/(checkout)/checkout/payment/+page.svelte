@@ -5,4 +5,4 @@
 </script>
 
 <h2>Payment</h2>
-<p>Select a payment method.</p>
+<p>Select a billing address and a payment method.</p>

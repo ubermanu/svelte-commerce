@@ -1,7 +1,7 @@
 import { magentoFetch } from '$lib/server/magento'
 import { gql } from 'graphql-request'
 
-export interface ShippingAddress {
+interface ShippingAddress {
   firstname: string
   lastname: string
   street: string[]
@@ -11,7 +11,7 @@ export interface ShippingAddress {
   telephone: string
 }
 
-export async function setShippingAddressesOnCart(
+export async function setShippingAddressOnCart(
   cartId: string,
   address: ShippingAddress,
   token?: string
@@ -67,6 +67,10 @@ export async function getShippingAddresses(cartId: string, token?: string) {
               label
             }
             telephone
+            selected_shipping_method {
+              carrier_code
+              method_code
+            }
           }
         }
       }
@@ -84,6 +88,10 @@ export async function getShippingMethods(cartId: string, token?: string) {
       query getCart($cartId: String!) {
         cart(cart_id: $cartId) {
           shipping_addresses {
+            selected_shipping_method {
+              carrier_code
+              method_code
+            }
             available_shipping_methods {
               available
               carrier_code
@@ -100,5 +108,54 @@ export async function getShippingMethods(cartId: string, token?: string) {
   })
 
   // TODO: Get the shipping methods for the current address
+  // TODO: Filter out the unavailable shipping methods
+  // TODO: Add a selected property to the shipping methods
   return cart.shipping_addresses[0].available_shipping_methods
+}
+
+interface ShippingMethod {
+  carrierCode: string
+  methodCode: string
+}
+
+export async function setShippingMethodOnCart(
+  cartId: string,
+  shippingMethod: ShippingMethod,
+  token?: string
+) {
+  const { setShippingMethodsOnCart } = await magentoFetch({
+    query: gql`
+      mutation SetShippingMethodsOnCart(
+        $cartId: String!
+        $shippingMethods: [ShippingMethodInput]!
+      ) {
+        setShippingMethodsOnCart(
+          input: { cart_id: $cartId, shipping_methods: $shippingMethods }
+        ) {
+          cart {
+            shipping_addresses {
+              selected_shipping_method {
+                carrier_code
+                method_code
+                carrier_title
+                method_title
+              }
+            }
+          }
+        }
+      }
+    `,
+    variables: {
+      cartId,
+      shippingMethods: [
+        {
+          carrier_code: shippingMethod.carrierCode,
+          method_code: shippingMethod.methodCode,
+        },
+      ],
+    },
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  })
+
+  return setShippingMethodsOnCart
 }
