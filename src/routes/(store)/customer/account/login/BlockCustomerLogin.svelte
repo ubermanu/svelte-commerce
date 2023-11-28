@@ -1,6 +1,9 @@
 <script>
-  import Field from '$lib/components/Field.svelte'
   import ActionsToolbar from '$lib/components/ActionsToolbar.svelte'
+  import Input from '$lib/components/Form/Input.svelte'
+  import Checkbox from '$lib/components/Form/Checkbox.svelte'
+
+  let showPassword = false
 </script>
 
 <div class="block block-customer-login">
@@ -10,12 +13,18 @@
   <div class="block-content">
     <form action="?/login" method="post" class="form form-login">
       <fieldset>
-        <Field label="Email" required={true} let:id>
-          <input {id} type="email" name="email" required />
-        </Field>
-        <Field label="Password" required={true} let:id>
-          <input {id} type="password" name="password" required />
-        </Field>
+        <Input label="Email" type="email" name="email" required />
+        <Input
+          label="Password"
+          type={showPassword ? 'text' : 'password'}
+          name="password"
+          required
+        />
+        <Checkbox
+          label="Show Password"
+          bind:value={showPassword}
+          on:change={() => (showPassword = !showPassword)}
+        />
         <ActionsToolbar>
           <button slot="primary" type="submit" class="action login primary">
             Sign In
