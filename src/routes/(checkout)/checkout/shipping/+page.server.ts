@@ -1,5 +1,17 @@
-import { setShippingAddressesOnCart } from '$lib/server/checkout'
-import type { Actions } from '@sveltejs/kit'
+import {
+  getShippingAddresses,
+  setShippingAddressesOnCart,
+} from '$lib/server/checkout'
+import type { Actions, ServerLoad } from '@sveltejs/kit'
+
+export const load: ServerLoad = async ({ locals, cookies }) => {
+  return {
+    shippingAddresses: await getShippingAddresses(
+      locals.cartId,
+      cookies.get('token')
+    ),
+  }
+}
 
 export const actions: Actions = {
   setShippingAddress: async ({ request, locals, cookies }) => {

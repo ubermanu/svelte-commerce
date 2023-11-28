@@ -8,6 +8,27 @@
 <h2>Shipping</h2>
 <p>Set a shipping address for your order.</p>
 
+{#if data.shippingAddresses}
+  <h3>Shipping Addresses</h3>
+  <ul>
+    {#each data.shippingAddresses as address}
+      <li>
+        {address.firstname}
+        {address.lastname}
+        <br />
+        {address.street}
+        <br />
+        {address.postcode}
+        {address.city}
+        <br />
+        {address.country.label}
+        <br />
+        {address.telephone}
+      </li>
+    {/each}
+  </ul>
+{/if}
+
 <form action="?/setShippingAddress" method="post">
   <fieldset>
     <legend>Shipping Address</legend>

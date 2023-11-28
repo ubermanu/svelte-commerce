@@ -50,3 +50,30 @@ export async function setShippingAddressesOnCart(
 
   return setShippingAddressesOnCart
 }
+
+export async function getShippingAddresses(cartId: string, token?: string) {
+  const { cart } = await magentoFetch({
+    query: gql`
+      query getCart($cartId: String!) {
+        cart(cart_id: $cartId) {
+          shipping_addresses {
+            firstname
+            lastname
+            street
+            city
+            postcode
+            country {
+              code
+              label
+            }
+            telephone
+          }
+        }
+      }
+    `,
+    variables: { cartId },
+    headers: token ? { authorization: `Bearer ${token}` } : {},
+  })
+
+  return cart.shipping_addresses
+}
