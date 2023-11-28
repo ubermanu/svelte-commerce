@@ -7,5 +7,6 @@
 </script>
 
 <Field {label} {noLabel} {required} let:id>
-  <input {id} {...$$restProps} />
+  <input {id} {...$$restProps} on:input />
+  <slot />
 </Field>
