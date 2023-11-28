@@ -17,3 +17,23 @@ export async function getStoreConfig() {
 
   return storeConfig
 }
+
+export async function getCountries() {
+  const { countries } = await magentoFetch({
+    query: gql`
+      query Countries {
+        countries {
+          id
+          full_name_locale
+          available_regions {
+            id
+            name
+            code
+          }
+        }
+      }
+    `,
+  })
+
+  return countries
+}

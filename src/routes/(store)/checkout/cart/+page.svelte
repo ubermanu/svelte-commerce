@@ -65,6 +65,8 @@
       </tr>
     </tfoot>
   </table>
+
+  <a href="/checkout">Proceed to Checkout</a>
 {:else}
   <p>Your cart is empty.</p>
   <a href="/products">Browse products</a>
