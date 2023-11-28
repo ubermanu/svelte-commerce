@@ -89,14 +89,16 @@ export async function getCategoryProducts(id: number) {
   return category?.products ?? []
 }
 
-interface Pagination {
+interface Toolbar {
   pageSize: number
   currentPage: number
+  sortOrder: string
+  sortDirection: string
 }
 
 export async function searchProducts(
   query: string,
-  { pageSize, currentPage }: Pagination
+  { pageSize, currentPage, sortOrder, sortDirection }: Toolbar
 ) {
   const { products } = await magentoFetch({
     query: gql`
@@ -104,11 +106,13 @@ export async function searchProducts(
         $query: String!
         $pageSize: Int!
         $currentPage: Int!
+        $sort: ProductAttributeSortInput!
       ) {
         products(
           search: $query
           pageSize: $pageSize
           currentPage: $currentPage
+          sort: $sort
         ) {
           total_count
           items {
@@ -135,6 +139,9 @@ export async function searchProducts(
       query,
       pageSize: pageSize ?? 16,
       currentPage: currentPage ?? 1,
+      sort: {
+        [sortOrder ?? 'relevance']: sortDirection?.toUpperCase() ?? 'ASC',
+      },
     },
   })
 
