@@ -4,8 +4,8 @@
   const toolbar = getContext('toolbar') as ToolbarContext
 
   $: totalCount = $toolbar.totalCount
-  const currentPage = $toolbar.currentPage
-  const pageSize = $toolbar.pageSize
+  $: currentPage = $toolbar.currentPage
+  $: pageSize = $toolbar.pageSize
 </script>
 
 {#if totalCount > 0}

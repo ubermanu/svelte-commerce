@@ -5,8 +5,8 @@
 
   const toolbar = getContext('toolbar') as ToolbarContext
 
-  const currentPage = $toolbar.currentPage
-  const pageSize = $toolbar.pageSize
+  $: currentPage = $toolbar.currentPage
+  $: pageSize = $toolbar.pageSize
 
   $: totalCount = $toolbar.totalCount
   $: totalPages = Math.ceil(totalCount / pageSize)

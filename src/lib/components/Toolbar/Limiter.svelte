@@ -4,7 +4,7 @@
   import { getContext } from 'svelte'
 
   const toolbar = getContext('toolbar') as ToolbarContext
-  const pageSize = $toolbar.pageSize
+  $: pageSize = $toolbar.pageSize
 
   const limits = [8, 16, 24, 32, 48]
 
