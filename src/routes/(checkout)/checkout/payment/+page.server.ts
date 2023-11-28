@@ -2,6 +2,7 @@ import {
   getBillingAddress,
   getPaymentMethods,
   setBillingAddressOnCart,
+  setPaymentMethodOnCart,
 } from '$lib/server/checkout'
 import type { Actions, ServerLoad } from '@sveltejs/kit'
 
@@ -48,4 +49,28 @@ export const actions: Actions = {
       success: true,
     }
   },
+
+  setPaymentMethod: async ({ request, locals, cookies }) => {
+    const formData = await request.formData()
+
+    const paymentMethod = formData.get('payment_method') as string
+    const cartId = locals.cartId
+    const token = cookies.get('token')
+
+    // TODO: Validate payment method
+
+    try {
+      await setPaymentMethodOnCart(cartId, paymentMethod, token)
+    } catch (err) {
+      return {
+        errors: ["Couldn't set payment method"],
+      }
+    }
+
+    return {
+      success: true,
+    }
+  },
+
+  placeOrder: async ({ request, locals, cookies }) => {},
 }

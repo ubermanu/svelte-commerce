@@ -1,8 +1,17 @@
 <script>
+  export let form
   export let data
 
   const isGuest = !data.customer
 </script>
+
+{#if form?.errors}
+  <ul>
+    {#each form.errors as error}
+      <li>{error}</li>
+    {/each}
+  </ul>
+{/if}
 
 <h2>Payment</h2>
 <p>Select a billing address and a payment method.</p>
@@ -80,3 +89,29 @@
   </fieldset>
   <button type="submit">Set billing address</button>
 </form>
+
+<h3>Payment method</h3>
+
+{#if data.paymentMethods}
+  <form action="?/setPaymentMethod" method="post">
+    <fieldset>
+      <legend>Payment Method</legend>
+      {#each data.paymentMethods as method}
+        <div class="field">
+          <div class="control">
+            <label>
+              <input
+                type="radio"
+                name="payment_method"
+                value={method.code}
+                required
+              />
+              {method.title}
+            </label>
+          </div>
+        </div>
+      {/each}
+    </fieldset>
+    <button type="submit">Set payment method</button>
+  </form>
+{/if}

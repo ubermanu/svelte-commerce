@@ -232,6 +232,9 @@ export async function getPaymentMethods(cartId: string, token?: string) {
     query: gql`
       query getCart($cartId: String!) {
         cart(cart_id: $cartId) {
+          selected_payment_method {
+            code
+          }
           available_payment_methods {
             code
             title
@@ -243,5 +246,39 @@ export async function getPaymentMethods(cartId: string, token?: string) {
     headers: token ? { authorization: `Bearer ${token}` } : {},
   })
 
+  // TODO: Add a selected property to the payment methods
   return cart.available_payment_methods
+}
+
+export async function setPaymentMethodOnCart(
+  cartId: string,
+  paymentMethod: string,
+  token?: string
+) {
+  const { setPaymentMethodOnCart } = await magentoFetch({
+    query: gql`
+      mutation SetPaymentMethodOnCart(
+        $cartId: String!
+        $paymentMethod: PaymentMethodInput!
+      ) {
+        setPaymentMethodOnCart(
+          input: { cart_id: $cartId, payment_method: $paymentMethod }
+        ) {
+          cart {
+            selected_payment_method {
+              code
+              title
+            }
+          }
+        }
+      }
+    `,
+    variables: {
+      cartId,
+      paymentMethod: { code: paymentMethod },
+    },
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  })
+
+  return setPaymentMethodOnCart
 }
