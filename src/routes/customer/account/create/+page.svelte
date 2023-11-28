@@ -1,6 +1,11 @@
 <script>
+  export let data
   export let form
 </script>
+
+<svelte:head>
+  <title>Sign Up - {data.head.title}</title>
+</svelte:head>
 
 {#if form?.errors}
   <ul>

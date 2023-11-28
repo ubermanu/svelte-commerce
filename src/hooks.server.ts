@@ -1,5 +1,6 @@
 import { createCustomerCart, createGuestCart, getCart } from '$lib/server/cart'
 import { getCustomer } from '$lib/server/customer'
+import { getStoreConfig } from '$lib/server/store'
 import type { Handle, RequestEvent } from '@sveltejs/kit'
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -19,6 +20,9 @@ export const handle: Handle = async ({ event, resolve }) => {
   const cartId = await createCart(event)
   event.locals.cartId = cartId
   event.locals.cart = await getCart(cartId, token)
+
+  // Get the store configuration
+  event.locals.storeConfig = await getStoreConfig()
 
   return resolve(event)
 }

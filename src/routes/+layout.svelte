@@ -12,6 +12,16 @@
   export let data
 </script>
 
+<svelte:head>
+  <title>{data.head.title}</title>
+  {#if data.head.description}
+    <meta name="description" content={data.meta.description} />
+  {/if}
+  {#if data.head.keywords}
+    <meta name="keywords" content={data.meta.keywords} />
+  {/if}
+</svelte:head>
+
 <header class="header">
   <ul class="links">
     {#each links as link}

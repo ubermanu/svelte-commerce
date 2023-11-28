@@ -10,6 +10,7 @@ declare global {
       loggedIn: boolean
       cartId: string
       cart: any | null
+      storeConfig: any
     }
     interface PageData {
       cmsPage?: any

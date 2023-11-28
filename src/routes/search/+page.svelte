@@ -9,6 +9,10 @@
   export let data
 </script>
 
+<svelte:head>
+  <title>Search - {data.head.title}</title>
+</svelte:head>
+
 <div class="products">
   {#await data.streamed.products}
     <p>Loading products</p>
