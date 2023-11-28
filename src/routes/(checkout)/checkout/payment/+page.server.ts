@@ -106,6 +106,8 @@ export const actions: Actions = {
       }
     }
 
+    cookies.delete('cart_id')
+
     throw redirect(302, `/checkout/success`)
   },
 }

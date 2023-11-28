@@ -7,7 +7,7 @@ export const load: ServerLoad = async ({ locals, cookies }) => {
   // TODO: Check if this order number is valid against the customer
   // cookies.delete('last_order_number')
 
-  if (lastOrderNumber) {
+  if (!lastOrderNumber) {
     throw redirect(302, '/')
   }
 
