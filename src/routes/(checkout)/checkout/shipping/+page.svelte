@@ -98,3 +98,28 @@
   </fieldset>
   <button type="submit">Set shipping address</button>
 </form>
+
+<h3>Shipping Methods</h3>
+{#if data.shippingMethods}
+  <form action="?/setShippingMethod" method="post">
+    <fieldset>
+      <legend>Shipping Method</legend>
+      {#each data.shippingMethods as method}
+        <div class="field">
+          <div class="control">
+            <label>
+              <input
+                type="radio"
+                name="method"
+                value={method.carrier_code + '_' + method.method_code}
+                required
+              />
+              {method.carrier_title} - {method.method_title}
+            </label>
+          </div>
+        </div>
+      {/each}
+    </fieldset>
+    <button type="submit">Set shipping method</button>
+  </form>
+{/if}

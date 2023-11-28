@@ -1,8 +1,6 @@
 <script>
   import { page } from '$app/stores'
 
-  export let data
-
   const steps = [
     {
       title: 'Shipping',

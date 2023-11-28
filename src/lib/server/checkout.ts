@@ -77,3 +77,28 @@ export async function getShippingAddresses(cartId: string, token?: string) {
 
   return cart.shipping_addresses
 }
+
+export async function getShippingMethods(cartId: string, token?: string) {
+  const { cart } = await magentoFetch({
+    query: gql`
+      query getCart($cartId: String!) {
+        cart(cart_id: $cartId) {
+          shipping_addresses {
+            available_shipping_methods {
+              available
+              carrier_code
+              carrier_title
+              method_code
+              method_title
+            }
+          }
+        }
+      }
+    `,
+    variables: { cartId },
+    headers: token ? { authorization: `Bearer ${token}` } : {},
+  })
+
+  // TODO: Get the shipping methods for the current address
+  return cart.shipping_addresses[0].available_shipping_methods
+}
