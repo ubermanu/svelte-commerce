@@ -11,15 +11,17 @@
   }
 
   export let priceRange: Partial<PriceRange>
+
+  export let quantity: number = 1
 </script>
 
-{#if priceRange}
+{#if priceRange && priceRange.minimum_price}
   <div class="price-box">
     <span
       class="price"
-      data-currency={priceRange.minimum_price?.regular_price.currency}
+      data-currency={priceRange.minimum_price.regular_price.currency}
     >
-      {formatPrice(priceRange.minimum_price?.regular_price.value ?? '')}
+      {formatPrice(priceRange.minimum_price.regular_price.value * quantity)}
     </span>
   </div>
 {/if}
