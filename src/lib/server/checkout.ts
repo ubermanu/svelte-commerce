@@ -301,3 +301,20 @@ export async function placeOrder(cartId: string, token?: string) {
 
   return placeOrder
 }
+
+export async function setGuestEmailOnCart(cartId: string, email: string) {
+  const { setGuestEmailOnCart } = await magentoFetch({
+    query: gql`
+      mutation SetGuestEmailOnCart($cartId: String!, $email: String!) {
+        setGuestEmailOnCart(input: { cart_id: $cartId, email: $email }) {
+          cart {
+            email
+          }
+        }
+      }
+    `,
+    variables: { cartId, email },
+  })
+
+  return setGuestEmailOnCart
+}

@@ -2,7 +2,6 @@
   export let data
 
   const isGuest = !data.customer
-  console.log(data)
 </script>
 
 <h2>Shipping</h2>
@@ -37,7 +36,7 @@
         <div class="control">
           <input
             type="email"
-            name="email"
+            name="guest_email"
             placeholder="Email Address"
             required
           />

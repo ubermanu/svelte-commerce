@@ -1,9 +1,4 @@
-import {
-  getShippingAddresses,
-  getShippingMethods,
-  setShippingAddressOnCart,
-  setShippingMethodOnCart,
-} from '$lib/server/checkout'
+import * as checkout from '$lib/server/checkout'
 import type { Actions, ServerLoad } from '@sveltejs/kit'
 
 export const load: ServerLoad = async ({ locals, cookies, depends }) => {
@@ -13,14 +8,36 @@ export const load: ServerLoad = async ({ locals, cookies, depends }) => {
   const token = cookies.get('token')
 
   return {
-    shippingAddresses: await getShippingAddresses(cartId, token),
-    shippingMethods: await getShippingMethods(cartId, token),
+    shippingAddresses: await checkout.getShippingAddresses(cartId, token),
+    shippingMethods: await checkout.getShippingMethods(cartId, token),
   }
 }
 
 export const actions: Actions = {
+  /**
+   * Set the shipping address on the cart.
+   *
+   * @param request
+   * @param locals
+   * @param cookies
+   */
   setShippingAddress: async ({ request, locals, cookies }) => {
     const formData = await request.formData()
+
+    // Set guest email address if not logged in
+    if (!locals.loggedIn) {
+      const email = formData.get('guest_email') as string
+
+      // TODO: Validate email address
+
+      try {
+        await checkout.setGuestEmailOnCart(locals.cartId, email)
+      } catch (err) {
+        return {
+          errors: ["Couldn't set guest email"],
+        }
+      }
+    }
 
     const address = {
       firstname: formData.get('firstname') as string,
@@ -38,7 +55,7 @@ export const actions: Actions = {
     const token = cookies.get('token')
 
     try {
-      await setShippingAddressOnCart(cartId, address, token)
+      await checkout.setShippingAddressOnCart(cartId, address, token)
     } catch (err) {
       return {
         errors: ["Couldn't set shipping address"],
@@ -50,6 +67,13 @@ export const actions: Actions = {
     }
   },
 
+  /**
+   * Set the shipping method on the cart.
+   *
+   * @param request
+   * @param locals
+   * @param cookies
+   */
   setShippingMethod: async ({ request, locals, cookies }) => {
     const formData = await request.formData()
 
@@ -65,7 +89,7 @@ export const actions: Actions = {
     }
 
     try {
-      await setShippingMethodOnCart(cartId, shippingMethod, token)
+      await checkout.setShippingMethodOnCart(cartId, shippingMethod, token)
     } catch (err) {
       return {
         errors: ["Couldn't set shipping method"],
@@ -77,6 +101,11 @@ export const actions: Actions = {
     }
   },
 
+  /**
+   * Go to the next step in the checkout.
+   *
+   * @param request
+   */
   nextStep: async ({ request }) => {
     // TODO: Check if the cart is valid then go to the next step
   },
