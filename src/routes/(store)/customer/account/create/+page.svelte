@@ -4,6 +4,7 @@
   import Checkbox from '$lib/components/Form/Checkbox.svelte'
   import PageTitle from '$lib/components/PageTitle.svelte'
   import PasswordStrengthMeter from '$lib/components/PasswordStrengthMeter.svelte'
+  import Fieldset from '$lib/components/Form/Fieldset.svelte'
 
   export let data
   export let form
@@ -39,8 +40,7 @@
   action="?/create"
   method="post"
 >
-  <fieldset class="fieldset create info">
-    <legend>Personal Information</legend>
+  <Fieldset legend="Personal Information" class="fieldset create info">
     <Input label="First Name" name="firstname" required />
     <Input label="Last Name" name="lastname" required />
     <Checkbox label="Sign Up for Newsletter" name="is_subscribed" />
@@ -48,9 +48,8 @@
       label="Allow remote shopping assistance"
       name="assistance_allowed"
     />
-  </fieldset>
-  <fieldset class="fieldset create account">
-    <legend>Sign-in Information</legend>
+  </Fieldset>
+  <Fieldset legend="Sign-in Information" class="fieldset create account">
     <Input label="Email" name="email" type="email" required />
     <Input
       label="Password"
@@ -72,16 +71,10 @@
       bind:value={showPassword}
       on:change={() => (showPassword = !showPassword)}
     />
-  </fieldset>
+  </Fieldset>
   <ActionsToolbar>
     <button slot="primary" type="submit" class="action submit primary">
       Create an Account
     </button>
   </ActionsToolbar>
 </form>
-
-<style lang="postcss">
-  .fieldset {
-    @apply mb-6;
-  }
-</style>

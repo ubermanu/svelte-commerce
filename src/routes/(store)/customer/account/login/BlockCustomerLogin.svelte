@@ -2,17 +2,18 @@
   import ActionsToolbar from '$lib/components/ActionsToolbar.svelte'
   import Input from '$lib/components/Form/Input.svelte'
   import Checkbox from '$lib/components/Form/Checkbox.svelte'
+  import Fieldset from '$lib/components/Form/Fieldset.svelte'
 
   let showPassword = false
 </script>
 
-<div class="block block-customer-login">
+<div class="block-customer-login block">
   <div class="block-title">
     <h2>Registered Customers</h2>
   </div>
   <div class="block-content">
     <form action="?/login" method="post" class="form form-login">
-      <fieldset>
+      <Fieldset>
         <Input label="Email" type="email" name="email" required />
         <Input
           label="Password"
@@ -33,14 +34,14 @@
             Forgot Your Password?
           </a>
         </ActionsToolbar>
-      </fieldset>
+      </Fieldset>
     </form>
   </div>
 </div>
 
 <style lang="postcss">
   .block-title {
-    @apply py-4 mb-4 border-b border-neutral-500;
+    @apply mb-4 border-b border-neutral-500 py-4;
   }
 
   .block-title h2 {
