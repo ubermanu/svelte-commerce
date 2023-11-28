@@ -2,12 +2,13 @@
   export let data
 
   const isGuest = !data.customer
+  console.log(data)
 </script>
 
 <h2>Shipping</h2>
 <p>Set a shipping address for your order.</p>
 
-<form action="/?setShippingAddress" method="post">
+<form action="?/setShippingAddress" method="post">
   <fieldset>
     <legend>Shipping Address</legend>
     {#if isGuest}
@@ -45,6 +46,26 @@
     </div>
     <div class="field">
       <div class="control">
+        <input
+          type="text"
+          name="postcode"
+          placeholder="Zip/Postal Code"
+          required
+        />
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <input type="text" name="city" placeholder="City" required />
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <input type="tel" name="telephone" placeholder="Telephone" required />
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
         <select name="country" required>
           <option value=""></option>
           {#each data.countries as country}
@@ -54,4 +75,5 @@
       </div>
     </div>
   </fieldset>
+  <button type="submit">Set shipping address</button>
 </form>
