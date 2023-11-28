@@ -1,8 +1,7 @@
 <script lang="ts">
   import { page } from '$app/stores'
   import { setContext } from 'svelte'
-
-  $: searchParams = new URLSearchParams($page.url.searchParams)
+  import { writable } from 'svelte/store'
 
   const currentPage = $page.data.toolbar.currentPage
   const pageSize = $page.data.toolbar.pageSize
@@ -11,14 +10,22 @@
 
   export let totalCount: number
 
-  setContext('toolbar', {
+  const toolbar = writable({
     currentPage,
     pageSize,
     sortOrder,
     sortDirection,
     totalCount,
-    searchParams,
   })
+
+  // TODO: fix that monstrosity
+  $: $toolbar.currentPage = $page.data.toolbar.currentPage
+  $: $toolbar.pageSize = $page.data.toolbar.pageSize
+  $: $toolbar.sortOrder = $page.data.toolbar.sortOrder
+  $: $toolbar.sortDirection = $page.data.toolbar.sortDirection
+  $: $toolbar.totalCount = totalCount
+
+  setContext('toolbar', toolbar)
 </script>
 
 <div class="toolbar">

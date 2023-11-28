@@ -1,15 +1,11 @@
 <script lang="ts">
   import { getContext } from 'svelte'
-  import { page } from '$app/stores'
 
-  const toolbar = getContext('toolbar') as any
-  const { totalCount } = toolbar
+  const toolbar = getContext('toolbar') as ToolbarContext
 
-  const currentPage = Number($page.url.searchParams.get('p')) || 1
-  const pageSize = Number($page.url.searchParams.get('limit')) || 16
-
-  $: console.log('amount', $page.data.toolbar)
-  $: console.log('amount-total', toolbar)
+  $: totalCount = $toolbar.totalCount
+  const currentPage = $toolbar.currentPage
+  const pageSize = $toolbar.pageSize
 </script>
 
 {#if totalCount > 0}

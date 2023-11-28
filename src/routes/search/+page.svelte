@@ -13,15 +13,19 @@
   {#await data.streamed.products}
     <p>Loading products</p>
   {:then products}
-    <Toolbar totalCount={+products.total_count}>
-      <Amount />
-      <Sorter />
-    </Toolbar>
-    <ProductList products={products.items} />
-    <Toolbar totalCount={+products.total_count}>
-      <Pages />
-      <Limiter />
-    </Toolbar>
+    {#if products.total_count > 0}
+      <Toolbar totalCount={+products.total_count}>
+        <Amount />
+        <Sorter />
+      </Toolbar>
+      <ProductList products={products.items} />
+      <Toolbar totalCount={+products.total_count}>
+        <Pages />
+        <Limiter />
+      </Toolbar>
+    {:else}
+      <p>No products found</p>
+    {/if}
   {:catch error}
     <p>{error.message}</p>
   {/await}

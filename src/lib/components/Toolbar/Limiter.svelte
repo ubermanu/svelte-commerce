@@ -1,8 +1,10 @@
 <script lang="ts">
   import { goto, invalidate } from '$app/navigation'
   import { page } from '$app/stores'
+  import { getContext } from 'svelte'
 
-  const pageSize = Number($page.url.searchParams.get('limit') || 16)
+  const toolbar = getContext('toolbar') as ToolbarContext
+  const pageSize = $toolbar.pageSize
 
   const limits = [8, 16, 24, 32, 48]
 

@@ -1,5 +1,7 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
+import { Writable } from 'svelte/store'
+
 declare global {
   namespace App {
     // interface Error {}
@@ -16,6 +18,14 @@ declare global {
     }
     // interface Platform {}
   }
+
+  type ToolbarContext = Writable<{
+    currentPage: number
+    pageSize: number
+    sortOrder: string
+    sortDirection: string
+    totalCount: number
+  }>
 }
 
 export {}

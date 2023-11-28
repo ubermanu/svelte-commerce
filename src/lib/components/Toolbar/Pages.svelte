@@ -3,15 +3,13 @@
   import { page } from '$app/stores'
   import { goto, invalidate } from '$app/navigation'
 
-  const toolbar = getContext('toolbar') as any
-  const { totalCount } = toolbar
+  const toolbar = getContext('toolbar') as ToolbarContext
 
-  const currentPage = Number($page.url.searchParams.get('p') || 1)
-  const pageSize = Number($page.url.searchParams.get('limit') || 16)
+  const currentPage = $toolbar.currentPage
+  const pageSize = $toolbar.pageSize
 
+  $: totalCount = $toolbar.totalCount
   $: totalPages = Math.ceil(totalCount / pageSize)
-
-  console.log(totalCount, totalPages, pageSize)
 
   async function goToPage(p: number) {
     const searchParams = new URLSearchParams($page.url.searchParams)

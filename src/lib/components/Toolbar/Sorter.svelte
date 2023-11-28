@@ -1,9 +1,12 @@
 <script lang="ts">
   import { page } from '$app/stores'
   import { goto, invalidate } from '$app/navigation'
+  import { getContext } from 'svelte'
 
-  $: sortOrder = $page.url.searchParams.get('sort') || 'relevance'
-  $: sortDirection = $page.url.searchParams.get('d') || 'asc'
+  const toolbar = getContext('toolbar') as ToolbarContext
+
+  $: sortOrder = $toolbar.sortOrder
+  $: sortDirection = $toolbar.sortDirection
 
   const orders = ['relevance', 'name', 'price']
   const directions = ['asc', 'desc']
