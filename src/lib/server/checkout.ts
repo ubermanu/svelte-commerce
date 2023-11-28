@@ -282,3 +282,22 @@ export async function setPaymentMethodOnCart(
 
   return setPaymentMethodOnCart
 }
+
+export async function placeOrder(cartId: string, token?: string) {
+  const { placeOrder } = await magentoFetch({
+    query: gql`
+      mutation PlaceOrder($cartId: String!) {
+        placeOrder(input: { cart_id: $cartId }) {
+          order {
+            order_number
+            order_id
+          }
+        }
+      }
+    `,
+    variables: { cartId },
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  })
+
+  return placeOrder
+}

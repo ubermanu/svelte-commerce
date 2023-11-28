@@ -1,10 +1,6 @@
-import {
-  getBillingAddress,
-  getPaymentMethods,
-  setBillingAddressOnCart,
-  setPaymentMethodOnCart,
-} from '$lib/server/checkout'
+import * as checkout from '$lib/server/checkout'
 import type { Actions, ServerLoad } from '@sveltejs/kit'
+import { redirect } from '@sveltejs/kit'
 
 export const load: ServerLoad = async ({ locals, cookies, depends }) => {
   depends('billing_address', 'payment_method')
@@ -13,12 +9,19 @@ export const load: ServerLoad = async ({ locals, cookies, depends }) => {
   const token = cookies.get('token')
 
   return {
-    billingAddress: await getBillingAddress(cartId, token),
-    paymentMethods: await getPaymentMethods(cartId, token),
+    billingAddress: await checkout.getBillingAddress(cartId, token),
+    paymentMethods: await checkout.getPaymentMethods(cartId, token),
   }
 }
 
 export const actions: Actions = {
+  /**
+   * Set the billing address on the cart.
+   *
+   * @param request
+   * @param locals
+   * @param cookies
+   */
   setBillingAddress: async ({ request, locals, cookies }) => {
     const formData = await request.formData()
 
@@ -38,7 +41,7 @@ export const actions: Actions = {
     const token = cookies.get('token')
 
     try {
-      await setBillingAddressOnCart(cartId, address, token)
+      await checkout.setBillingAddressOnCart(cartId, address, token)
     } catch (err) {
       return {
         errors: ["Couldn't set billing address"],
@@ -50,6 +53,13 @@ export const actions: Actions = {
     }
   },
 
+  /**
+   * Set the payment method on the cart.
+   *
+   * @param request
+   * @param locals
+   * @param cookies
+   */
   setPaymentMethod: async ({ request, locals, cookies }) => {
     const formData = await request.formData()
 
@@ -60,7 +70,7 @@ export const actions: Actions = {
     // TODO: Validate payment method
 
     try {
-      await setPaymentMethodOnCart(cartId, paymentMethod, token)
+      await checkout.setPaymentMethodOnCart(cartId, paymentMethod, token)
     } catch (err) {
       return {
         errors: ["Couldn't set payment method"],
@@ -72,5 +82,30 @@ export const actions: Actions = {
     }
   },
 
-  placeOrder: async ({ request, locals, cookies }) => {},
+  /**
+   * Place the order and redirect to the success page.
+   *
+   * @param locals
+   * @param cookies
+   */
+  placeOrder: async ({ locals, cookies }) => {
+    const cartId = locals.cartId
+    const token = cookies.get('token')
+
+    try {
+      const { order } = await checkout.placeOrder(cartId, token)
+
+      cookies.set('last_order_number', order.order_number, {
+        path: '/',
+        maxAge: 60 * 5, // 5 minutes
+      })
+    } catch (err) {
+      console.error(err)
+      return {
+        errors: ["Couldn't place order"],
+      }
+    }
+
+    throw redirect(302, `/checkout/success`)
+  },
 }

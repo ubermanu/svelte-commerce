@@ -1,8 +1,6 @@
 <script>
   export let form
   export let data
-
-  const isGuest = !data.customer
 </script>
 
 {#if form?.errors}
@@ -115,3 +113,8 @@
     <button type="submit">Set payment method</button>
   </form>
 {/if}
+
+<br />
+<form action="?/placeOrder" method="post">
+  <button type="submit">Place order</button>
+</form>
