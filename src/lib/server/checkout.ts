@@ -159,3 +159,89 @@ export async function setShippingMethodOnCart(
 
   return setShippingMethodsOnCart
 }
+
+export async function setBillingAddressOnCart(
+  cartId: string,
+  address: ShippingAddress,
+  token?: string
+) {
+  const { setBillingAddressOnCart } = await magentoFetch({
+    query: gql`
+      mutation SetBillingAddressOnCart(
+        $cartId: String!
+        $address: BillingAddressInput!
+      ) {
+        setBillingAddressOnCart(
+          input: { cart_id: $cartId, billing_address: $address }
+        ) {
+          cart {
+            billing_address {
+              firstname
+              lastname
+              street
+              city
+              postcode
+              country {
+                code
+              }
+              telephone
+            }
+          }
+        }
+      }
+    `,
+    variables: {
+      cartId,
+      address: { address },
+    },
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  })
+
+  return setBillingAddressOnCart
+}
+
+export async function getBillingAddress(cartId: string, token?: string) {
+  const { cart } = await magentoFetch({
+    query: gql`
+      query getCart($cartId: String!) {
+        cart(cart_id: $cartId) {
+          billing_address {
+            firstname
+            lastname
+            street
+            city
+            postcode
+            country {
+              code
+              label
+            }
+            telephone
+          }
+        }
+      }
+    `,
+    variables: { cartId },
+    headers: token ? { authorization: `Bearer ${token}` } : {},
+  })
+
+  return cart.billing_address
+}
+
+export async function getPaymentMethods(cartId: string, token?: string) {
+  const { cart } = await magentoFetch({
+    query: gql`
+      query getCart($cartId: String!) {
+        cart(cart_id: $cartId) {
+          available_payment_methods {
+            code
+            title
+          }
+        }
+      }
+    `,
+    variables: { cartId },
+    headers: token ? { authorization: `Bearer ${token}` } : {},
+  })
+
+  return cart.available_payment_methods
+}
