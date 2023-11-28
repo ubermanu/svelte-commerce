@@ -40,6 +40,7 @@
         </li>
       {/each}
     </ul>
+    <a href="/checkout/cart">View cart</a>
   {:else}
     <p>Cart is empty</p>
   {/if}
