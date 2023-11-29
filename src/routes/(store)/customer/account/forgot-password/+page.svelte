@@ -32,6 +32,9 @@
   method="post"
 >
   <Fieldset>
+    <p>
+      Please enter your email address below to receive a password reset link.
+    </p>
     <Input
       label="Email"
       name="email"

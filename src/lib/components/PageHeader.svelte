@@ -5,13 +5,13 @@
   import { Search, UserCircle } from 'svelte-lucide'
 </script>
 
-<header class="page-header mb-6 border-b border-neutral-300 px-4">
+<header class="page-header mb-6 border-b border-neutral-300">
   <section class="header content">
     <a href="/" class="logo">
       <img
-        src={$page.data.logo.url}
-        width={$page.data.logo.width}
-        height={$page.data.logo.height}
+        src={$page.data.logo.url ?? '/magento-logo.svg'}
+        width={$page.data.logo.width ?? 179}
+        height={$page.data.logo.height ?? 50}
         alt=""
       />
     </a>
@@ -47,11 +47,7 @@
 
 <style lang="postcss">
   .header.content {
-    @apply container mx-auto;
-  }
-
-  .logo {
-    @apply flex w-[200px] justify-center;
+    @apply container mx-auto px-4;
   }
 
   .header.content {
