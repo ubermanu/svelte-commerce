@@ -1,0 +1,73 @@
+<script>
+  import { page } from '$app/stores'
+  import MiniCart from '$lib/components/MiniCart.svelte'
+  import Input from '$lib/components/Form/Input.svelte'
+  import { Search, UserCircle } from 'svelte-lucide'
+
+  $: data = $page.data
+</script>
+
+<header class="page-header">
+  <section class="header content">
+    <a href="/" class="logo">
+      <img src="/magento-logo.svg" alt="" />
+    </a>
+
+    <div class="block-search block">
+      <form action="/search" method="get" class="form minisearch">
+        <Input
+          label="Search"
+          noLabel={true}
+          name="q"
+          placeholder="Search..."
+          value={$page.url.searchParams.get('q')}
+        />
+        <button type="submit" class="action search">
+          <Search role="img" aria-label="Search" />
+        </button>
+      </form>
+    </div>
+
+    {#if data?.customer}
+      <a class="customer" href="/customer/account" title="My Account">
+        <UserCircle />
+      </a>
+    {:else}
+      <a class="customer" href="/customer/account/login" title="Login">
+        <UserCircle />
+      </a>
+    {/if}
+
+    <MiniCart cart={data.cart} />
+  </section>
+</header>
+
+<style lang="postcss">
+  .page-header {
+    @apply container mx-auto px-4;
+  }
+
+  .logo {
+    @apply flex w-[200px] justify-center;
+  }
+
+  .header.content {
+    @apply flex items-center gap-4 py-4;
+  }
+
+  .block-search {
+    @apply mx-auto;
+  }
+
+  .minisearch {
+    @apply flex items-center;
+  }
+
+  .minisearch :global(.field) {
+    @apply mb-0;
+  }
+
+  .minisearch .action.search {
+    @apply ml-2;
+  }
+</style>

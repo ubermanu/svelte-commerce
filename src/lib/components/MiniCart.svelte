@@ -2,6 +2,7 @@
   import PriceBox from '$lib/components/PriceBox.svelte'
   import clickOutside from '$lib/actions/clickOutside'
   import { writable } from 'svelte/store'
+  import { ShoppingCart } from 'svelte-lucide'
 
   export let cart: any
   // console.log(cart)
@@ -14,7 +15,14 @@
   }
 </script>
 
-<button class="button" on:click={toggle}>Cart</button>
+<a
+  class="mini-cart-button"
+  href="/checkout/cart"
+  on:click|preventDefault={toggle}
+  title="My Cart"
+>
+  <ShoppingCart />
+</a>
 
 <!-- Add collapsible to render the products in the cart -->
 <div
