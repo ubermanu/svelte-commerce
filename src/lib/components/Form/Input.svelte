@@ -10,3 +10,9 @@
   <input {id} {...$$restProps} on:input />
   <slot />
 </Field>
+
+<style lang="postcss">
+  input {
+    @apply w-full rounded;
+  }
+</style>

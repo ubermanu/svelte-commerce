@@ -75,10 +75,6 @@
     @apply mb-0 flex-1;
   }
 
-  .form.subscribe :global(input) {
-    @apply w-full rounded;
-  }
-
   .footer.links a {
     @apply underline-offset-4 hover:underline;
   }

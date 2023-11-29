@@ -30,7 +30,11 @@
           <button slot="primary" type="submit" class="action login primary">
             Sign In
           </button>
-          <a slot="secondary" href="?/forgot-password" class="action remind">
+          <a
+            slot="secondary"
+            href="/customer/account/forgot-password"
+            class="action remind"
+          >
             Forgot Your Password?
           </a>
         </ActionsToolbar>

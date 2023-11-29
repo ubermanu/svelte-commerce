@@ -63,9 +63,11 @@ function restrictAccessToCustomerAccount(event: RequestEvent): void {
   if (
     event.url.pathname.startsWith('/customer/account') &&
     !event.locals.loggedIn &&
-    !['/customer/account/create', '/customer/account/login'].includes(
-      event.url.pathname
-    )
+    ![
+      '/customer/account/create',
+      '/customer/account/login',
+      '/customer/account/forgot-password',
+    ].includes(event.url.pathname)
   ) {
     throw redirect(302, '/customer/account/login')
   }

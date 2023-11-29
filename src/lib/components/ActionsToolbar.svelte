@@ -1,4 +1,6 @@
-<div class="actions-toolbar">
+<div
+  class="actions-toolbar max-md:space-y-4 md:flex md:items-center md:justify-between"
+>
   {#if $$slots.primary}
     <div class="primary">
       <slot name="primary" />
