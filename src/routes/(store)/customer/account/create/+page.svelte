@@ -36,11 +36,11 @@
 <PageTitle>Create New Customer Account</PageTitle>
 
 <form
-  class="form create account form-create-account"
+  class="form create account form-create-account max-w-xl space-y-6"
   action="?/create"
   method="post"
 >
-  <Fieldset legend="Personal Information" class="fieldset create info">
+  <Fieldset legend="Personal Information" class="create info">
     <Input label="First Name" name="firstname" required />
     <Input label="Last Name" name="lastname" required />
     <Checkbox label="Sign Up for Newsletter" name="is_subscribed" />
@@ -49,7 +49,7 @@
       name="assistance_allowed"
     />
   </Fieldset>
-  <Fieldset legend="Sign-in Information" class="fieldset create account">
+  <Fieldset legend="Sign-in Information" class="create account">
     <Input label="Email" name="email" type="email" required />
     <Input
       label="Password"

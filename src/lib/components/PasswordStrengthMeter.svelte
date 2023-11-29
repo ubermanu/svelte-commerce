@@ -23,7 +23,7 @@
 
 <style lang="postcss">
   .password-strength-meter {
-    @apply relative z-0 mt-2 flex w-[225px] items-center rounded-sm bg-neutral-200 p-1;
+    @apply relative z-0 mt-2 flex items-center rounded-sm bg-neutral-200 p-1;
   }
 
   .password-strength-meter .label {

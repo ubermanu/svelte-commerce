@@ -12,7 +12,11 @@
     <h2>Registered Customers</h2>
   </div>
   <div class="block-content">
-    <form action="?/login" method="post" class="form form-login">
+    <form
+      action="?/login"
+      method="post"
+      class="form form-login max-w-xl space-y-6"
+    >
       <Fieldset>
         <Input label="Email" type="email" name="email" required />
         <Input
@@ -26,19 +30,19 @@
           bind:value={showPassword}
           on:change={() => (showPassword = !showPassword)}
         />
-        <ActionsToolbar>
-          <button slot="primary" type="submit" class="action login primary">
-            Sign In
-          </button>
-          <a
-            slot="secondary"
-            href="/customer/account/forgot-password"
-            class="action remind"
-          >
-            Forgot Your Password?
-          </a>
-        </ActionsToolbar>
       </Fieldset>
+      <ActionsToolbar>
+        <button slot="primary" type="submit" class="action login primary">
+          Sign In
+        </button>
+        <a
+          slot="secondary"
+          href="/customer/account/forgot-password"
+          class="action remind"
+        >
+          Forgot Your Password?
+        </a>
+      </ActionsToolbar>
     </form>
   </div>
 </div>
@@ -50,5 +54,9 @@
 
   .block-title h2 {
     @apply text-xl font-bold;
+  }
+
+  .action.remind {
+    @apply underline-offset-4 hover:underline;
   }
 </style>

@@ -26,7 +26,11 @@
 
 <PageTitle>Forgot Your Password?</PageTitle>
 
-<form class="form password forget" action="?/resetPassword" method="post">
+<form
+  class="form password forget max-w-xl space-y-6"
+  action="?/resetPassword"
+  method="post"
+>
   <Fieldset>
     <Input label="Email" name="email" type="email" required />
   </Fieldset>

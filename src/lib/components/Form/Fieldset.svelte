@@ -1,8 +1,10 @@
 <script lang="ts">
   export let legend: string = ''
+
+  const { class: additionalClasses = '', ...restProps } = $$restProps
 </script>
 
-<fieldset class="fieldset" {...$$restProps}>
+<fieldset class="fieldset space-y-4 {additionalClasses}" {...restProps}>
   {#if legend}
     <legend class="legend">{legend}</legend>
   {/if}
@@ -10,15 +12,7 @@
 </fieldset>
 
 <style lang="postcss">
-  .fieldset {
-    @apply mb-6;
-  }
-
-  .fieldset:last-child {
-    @apply mb-0;
-  }
-
   .legend {
-    @apply mb-4 w-full text-lg;
+    @apply mb-1 w-full text-lg;
   }
 </style>

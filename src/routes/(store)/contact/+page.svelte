@@ -8,11 +8,13 @@
 
 <PageTitle>Contact Us</PageTitle>
 
-<form class="form contact" action="?/contactUs" method="post">
+<form
+  class="form contact max-w-xl space-y-6"
+  action="?/contactUs"
+  method="post"
+>
   <Fieldset legend="Write Us">
-    <p class="mb-4">
-      Jot us a note and we’ll get back to you as quickly as possible.
-    </p>
+    <p>Jot us a note and we’ll get back to you as quickly as possible.</p>
     <Input label="Name" name="name" type="text" required />
     <Input label="Email" name="email" type="email" required />
     <Input label="Phone Number" name="telephone" type="tel" />
