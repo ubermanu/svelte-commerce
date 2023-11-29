@@ -5,6 +5,7 @@ import { gql } from 'graphql-request'
 // TODO: Get more price info
 // TODO: Get reviews
 // TODO: Get variants in another query?
+// TODO: Sort configurable options by position
 export async function getProduct(sku: string) {
   const { products } = await magentoFetch({
     query: gql`
@@ -36,6 +37,7 @@ export async function getProduct(sku: string) {
                 attribute_code
                 attribute_id
                 label
+                position
                 values {
                   uid
                   label

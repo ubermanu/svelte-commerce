@@ -4,7 +4,7 @@
   import PriceBox from '$lib/components/PriceBox.svelte'
   import Input from '$lib/components/Form/Input.svelte'
   import PageTitle from '$lib/components/PageTitle.svelte'
-  import ConfigurableOptions from './ConfigurableOptions.svelte'
+  import SwatchRenderer from '$lib/components/SwatchRenderer.svelte'
 
   export let data
 
@@ -51,7 +51,11 @@
       <input type="hidden" name="sku" value={data.product.sku} />
 
       {#if data.product.type_id === 'configurable'}
-        <ConfigurableOptions product={data.product} />
+        <div class="configurable-options my-6 space-y-3">
+          {#each data.product.configurable_options as option}
+            <SwatchRenderer {option} />
+          {/each}
+        </div>
       {/if}
 
       <div class="box-tocart flex items-center gap-1">
