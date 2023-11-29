@@ -11,6 +11,9 @@ dependencies:
   radash:
     specifier: ^11.0.0
     version: 11.0.0
+  zxcvbn:
+    specifier: ^4.4.2
+    version: 4.4.2
 
 devDependencies:
   '@melt-ui/pp':
@@ -31,6 +34,9 @@ devDependencies:
   '@tailwindcss/typography':
     specifier: ^0.5.10
     version: 0.5.10(tailwindcss@3.3.5)
+  '@types/zxcvbn':
+    specifier: ^4.4.4
+    version: 4.4.4
   '@ubermanu/prettier-config':
     specifier: ^3.2.0
     version: 3.2.0(prettier-plugin-svelte@3.1.2)(prettier-plugin-tailwindcss@0.5.7)(prettier@3.1.0)
@@ -549,6 +555,10 @@ packages:
 
   /@types/unist@3.0.2:
     resolution: {integrity: sha512-dqId9J8K/vGi5Zr7oo212BGii5m3q5Hxlkwy3WpYuKPklmBEvsbMYYyLxAQpSffdLl/gdW0XUpKWFvYmyoWCoQ==}
+    dev: true
+
+  /@types/zxcvbn@4.4.4:
+    resolution: {integrity: sha512-Tuk4q7q0DnpzyJDI4aMeghGuFu2iS1QAdKpabn8JfbtfGmVDUgvZv1I7mEjP61Bvnp3ljKCC8BE6YYSTNxmvRQ==}
     dev: true
 
   /@ubermanu/prettier-config@3.2.0(prettier-plugin-svelte@3.1.2)(prettier-plugin-tailwindcss@0.5.7)(prettier@3.1.0):
@@ -2519,3 +2529,7 @@ packages:
     resolution: {integrity: sha512-8aAvwVUSHpfEqTQ4w/KMlf3HcRdt50E5ODIQJBw1fQ5RL34xabzxtUlzTXVqc4rkZsPbvrXKWnABCD7kWSmocA==}
     engines: {node: '>= 14'}
     dev: true
+
+  /zxcvbn@4.4.2:
+    resolution: {integrity: sha512-Bq0B+ixT/DMyG8kgX2xWcI5jUvCwqrMxSFam7m0lAf78nf04hv6lNCsyLYdyYTrCVMqNDY/206K7eExYCeSyUQ==}
+    dev: false

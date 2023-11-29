@@ -1,36 +1,41 @@
-<script>
-  import { writable } from 'svelte/store'
+<script lang="ts">
+  import zxcvbn from 'zxcvbn'
 
-  export let password = ''
+  export let password: string = ''
 
-  let strength = writable(0)
+  let strength = 0
 
-  $: if (password.length > 10) {
-    $strength = 100
-  } else if (password.length > 5) {
-    $strength = 50
-  } else {
-    $strength = 0
+  // Calculate the password strength
+  $: strength = password ? zxcvbn(password).score + 1 : 0
+
+  const labels = {
+    0: 'No Password',
+    1: 'Very Weak',
+    2: 'Weak',
+    3: 'Medium',
+    4: 'Strong',
+    5: 'Very Strong',
   }
 
-  // TODO: Add more rules to calculate password strength (+ different colors)
+  const colors = {
+    0: '',
+    1: 'bg-red-400',
+    2: 'bg-red-400',
+    3: 'bg-yellow-400',
+    4: 'bg-green-400',
+    5: 'bg-green-400',
+  }
 </script>
 
-<div class="password-strength-meter" aria-live="polite">
-  <span class="label">Password strength:</span>
-  <span class="strength" style="width: {$strength}%"></span>
+<div
+  class="password-strength-meter relative z-0 mt-2 flex items-center rounded-sm bg-neutral-200 p-1"
+  aria-live="polite"
+>
+  <span class="px-2 text-sm">
+    Password strength: <strong>{labels[strength]}</strong>
+  </span>
+  <span
+    class="absolute left-0 top-0 -z-10 h-full rounded-sm {colors[strength]}"
+    style="width: {strength * 20}%"
+  ></span>
 </div>
-
-<style lang="postcss">
-  .password-strength-meter {
-    @apply relative z-0 mt-2 flex items-center rounded-sm bg-neutral-200 p-1;
-  }
-
-  .password-strength-meter .label {
-    @apply px-2 text-sm;
-  }
-
-  .password-strength-meter .strength {
-    @apply absolute left-0 top-0 -z-10 h-full rounded-sm bg-green-400;
-  }
-</style>
