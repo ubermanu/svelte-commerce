@@ -47,11 +47,9 @@ function extractSuperAttributes(formData: FormData) {
   const superAttributes = new Map<string, string>()
 
   for (const [key, value] of formData.entries()) {
-    if (key.startsWith('super_attribute[') && value) {
-      const match = key.match(/super_attribute\[(\d+)\]/)
-      if (match) {
-        superAttributes.set(match[1], value?.toString())
-      }
+    const match = key.match(/super_attribute\[(\d+)\]/)
+    if (match && value) {
+      superAttributes.set(match[1], value?.toString())
     }
   }
 
