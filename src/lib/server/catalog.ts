@@ -19,6 +19,7 @@ export async function getProduct(sku: string) {
             }
             sku
             stock_status
+            only_x_left_in_stock
             price_range {
               minimum_price {
                 regular_price {

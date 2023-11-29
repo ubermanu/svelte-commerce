@@ -28,7 +28,7 @@
 </script>
 
 <div class="configurable-option">
-  <div class="mb-1 font-semibold">{option.label}</div>
+  <div class="mb-2 font-semibold">{option.label}</div>
   <ul class="flex flex-wrap gap-4" use:melt={$root}>
     {#each option.values as value}
       <li>

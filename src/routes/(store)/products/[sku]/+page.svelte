@@ -7,6 +7,7 @@
   import SwatchRenderer from '$lib/components/SwatchRenderer.svelte'
   import Rating from '$lib/components/Rating.svelte'
   import { formatDate } from '$lib/helpers/date'
+  import Message from '$lib/components/Message.svelte'
 
   export let data
 
@@ -34,6 +35,30 @@
   </div>
 
   <div class="product details space-y-4">
+    {#if data.product.only_x_left_in_stock}
+      <div class="product-remaining">
+        <Message level="warning">
+          <p>
+            Only <strong>{data.product.only_x_left_in_stock}</strong> left in stock!
+          </p>
+        </Message>
+      </div>
+    {/if}
+
+    <div class="product status flex gap-4 text-lg">
+      <div class="product-availability">
+        {#if data.product.stock_status === 'IN_STOCK'}
+          <span class="text-green-500">In Stock</span>
+        {:else if data.product.stock_status === 'OUT_OF_STOCK'}
+          <span class="text-red-500">Out of Stock</span>
+        {/if}
+      </div>
+      <div class="product-sku">
+        <span class="text-neutral-500">SKU:</span>
+        <span>{data.product.sku}</span>
+      </div>
+    </div>
+
     <PriceBox
       class="text-3xl"
       priceRange={data.product.price_range}
@@ -49,14 +74,14 @@
       <input type="hidden" name="sku" value={data.product.sku} />
 
       {#if data.product.type_id === 'configurable'}
-        <div class="configurable-options my-6 space-y-3">
+        <div class="configurable-options my-8 space-y-4">
           {#each data.product.configurable_options as option}
             <SwatchRenderer {option} />
           {/each}
         </div>
       {/if}
 
-      <div class="box-tocart flex items-center gap-1">
+      <div class="box-tocart mt-8 flex items-center gap-2">
         <Input
           label="Quantity"
           noLabel={true}
@@ -115,7 +140,7 @@
 
 <style lang="postcss">
   .section {
-    @apply mb-8;
+    @apply mb-12;
   }
 
   .section-title {
