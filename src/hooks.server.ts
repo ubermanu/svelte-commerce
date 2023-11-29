@@ -2,6 +2,7 @@ import { createCustomerCart, createGuestCart, getCart } from '$lib/server/cart'
 import { getCustomer } from '$lib/server/customer'
 import { getStoreConfig } from '$lib/server/store'
 import type { Handle, RequestEvent } from '@sveltejs/kit'
+import { redirect } from '@sveltejs/kit'
 
 export const handle: Handle = async ({ event, resolve }) => {
   // TODO: Refresh the token if it's expired
@@ -24,11 +25,14 @@ export const handle: Handle = async ({ event, resolve }) => {
   // Get the store configuration
   event.locals.storeConfig = await getStoreConfig()
 
+  // If the customer tries to access the dashboard without being logged in, redirect to the login page
+  restrictAccessToCustomerAccount(event)
+
   return resolve(event)
 }
 
 /** Create a cart for the current user, and return the cartId. */
-export async function createCart(event: RequestEvent): Promise<string> {
+async function createCart(event: RequestEvent): Promise<string> {
   const cartId = event.cookies.get('cart_id')!
 
   // TODO: Check if the cart is still valid
@@ -53,4 +57,16 @@ export async function createCart(event: RequestEvent): Promise<string> {
   })
 
   return newCartId
+}
+
+function restrictAccessToCustomerAccount(event: RequestEvent): void {
+  if (
+    event.url.pathname.startsWith('/customer/account') &&
+    !event.locals.loggedIn &&
+    !['/customer/account/create', '/customer/account/login'].includes(
+      event.url.pathname
+    )
+  ) {
+    throw redirect(302, '/customer/account/login')
+  }
 }
