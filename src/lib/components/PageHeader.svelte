@@ -2,15 +2,18 @@
   import { page } from '$app/stores'
   import MiniCart from '$lib/components/MiniCart.svelte'
   import Input from '$lib/components/Form/Input.svelte'
-  import { Search, ShoppingCart, UserCircle } from 'svelte-lucide'
-
-  $: data = $page.data
+  import { Search, UserCircle } from 'svelte-lucide'
 </script>
 
 <header class="page-header">
   <section class="header content">
     <a href="/" class="logo">
-      <img src="/magento-logo.svg" alt="" />
+      <img
+        src={$page.data.logo.url}
+        width={$page.data.logo.width}
+        height={$page.data.logo.height}
+        alt=""
+      />
     </a>
 
     <div class="block-search block">
@@ -28,7 +31,7 @@
       </form>
     </div>
 
-    {#if data?.customer}
+    {#if $page.data.customer}
       <a class="customer p-2" href="/customer/account" title="My Account">
         <UserCircle tabindex="-1" aria-hidden="true" />
       </a>
@@ -38,7 +41,7 @@
       </a>
     {/if}
 
-    <MiniCart cart={data.cart} />
+    <MiniCart cart={$page.data.cart} />
   </section>
 </header>
 
@@ -61,10 +64,6 @@
 
   .minisearch {
     @apply flex items-center;
-  }
-
-  .minisearch :global(.field) {
-    @apply mb-0;
   }
 
   .minisearch .action.search {

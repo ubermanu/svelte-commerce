@@ -10,6 +10,10 @@ export async function getStoreConfig() {
           default_title
           default_description
           default_keywords
+          copyright
+          header_logo_src
+          logo_width
+          logo_height
         }
       }
     `,

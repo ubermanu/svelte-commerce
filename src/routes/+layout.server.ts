@@ -8,6 +8,14 @@ export const load: ServerLoad = async ({ locals }) => {
       description: locals.storeConfig.default_description,
       keywords: locals.storeConfig.default_keywords,
     },
+    logo: {
+      src: locals.storeConfig.header_logo_src,
+      width: locals.storeConfig.logo_width,
+      height: locals.storeConfig.logo_height,
+    },
+    footer: {
+      copyright: locals.storeConfig.copyright,
+    },
     customer: locals.customer,
     cart: locals.cart,
   }

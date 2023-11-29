@@ -1,5 +1,6 @@
 <script>
   import Input from '$lib/components/Form/Input.svelte'
+  import { page } from '$app/stores'
 
   const links = [
     {
@@ -58,7 +59,7 @@
   </div>
 
   <p class="copyright mt-6 text-xs text-neutral-700 md:text-center">
-    Copyright © 2013-present Magento, Inc. All rights reserved.
+    {$page.data.footer?.copyright}
   </p>
 </footer>
 
@@ -69,10 +70,6 @@
 
   .form.subscribe {
     @apply flex items-center gap-1;
-  }
-
-  .form.subscribe :global(.field) {
-    @apply mb-0 flex-1;
   }
 
   .footer.links a {
