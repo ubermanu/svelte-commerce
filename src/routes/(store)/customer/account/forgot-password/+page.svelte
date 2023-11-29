@@ -32,7 +32,13 @@
   method="post"
 >
   <Fieldset>
-    <Input label="Email" name="email" type="email" required />
+    <Input
+      label="Email"
+      name="email"
+      type="email"
+      autocomplete="email"
+      required
+    />
   </Fieldset>
   <ActionsToolbar>
     <button slot="primary" type="submit" class="action submit primary">

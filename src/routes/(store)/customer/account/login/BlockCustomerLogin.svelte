@@ -18,11 +18,18 @@
       class="form form-login max-w-xl space-y-6"
     >
       <Fieldset>
-        <Input label="Email" type="email" name="email" required />
+        <Input
+          label="Email"
+          type="email"
+          name="email"
+          autocomplete="email"
+          required
+        />
         <Input
           label="Password"
           type={showPassword ? 'text' : 'password'}
           name="password"
+          autocomplete="current-password"
           required
         />
         <Checkbox

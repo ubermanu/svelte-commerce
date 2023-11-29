@@ -41,8 +41,18 @@
   method="post"
 >
   <Fieldset legend="Personal Information" class="create info">
-    <Input label="First Name" name="firstname" required />
-    <Input label="Last Name" name="lastname" required />
+    <Input
+      label="First Name"
+      name="firstname"
+      autocomplete="given-name"
+      required
+    />
+    <Input
+      label="Last Name"
+      name="lastname"
+      autocomplete="family-name"
+      required
+    />
     <Checkbox label="Sign Up for Newsletter" name="is_subscribed" />
     <Checkbox
       label="Allow remote shopping assistance"
@@ -50,11 +60,18 @@
     />
   </Fieldset>
   <Fieldset legend="Sign-in Information" class="create account">
-    <Input label="Email" name="email" type="email" required />
+    <Input
+      label="Email"
+      name="email"
+      type="email"
+      autocomplete="email"
+      required
+    />
     <Input
       label="Password"
       name="password"
       type={showPassword ? 'text' : 'password'}
+      autocomplete="new-password"
       on:input={handlePasswordInput}
       required
     >
@@ -64,6 +81,7 @@
       label="Confirm Password"
       name="password_confirmation"
       type={showPassword ? 'text' : 'password'}
+      autocomplete="off"
       required
     />
     <Checkbox

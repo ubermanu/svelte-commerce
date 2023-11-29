@@ -15,9 +15,20 @@
 >
   <Fieldset legend="Write Us">
     <p>Jot us a note and we’ll get back to you as quickly as possible.</p>
-    <Input label="Name" name="name" type="text" required />
-    <Input label="Email" name="email" type="email" required />
-    <Input label="Phone Number" name="telephone" type="tel" />
+    <Input label="Name" name="name" type="text" autocomplete="name" required />
+    <Input
+      label="Email"
+      name="email"
+      type="email"
+      autocomplete="email"
+      required
+    />
+    <Input
+      label="Phone Number"
+      name="telephone"
+      type="tel"
+      autocomplete="tel"
+    />
     <Textarea label="What’s on your mind?" name="comment" />
     <ActionsToolbar>
       <button slot="primary" type="submit" class="action submit primary">

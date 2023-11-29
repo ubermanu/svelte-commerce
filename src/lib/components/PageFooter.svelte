@@ -31,6 +31,7 @@
             name="email"
             type="email"
             placeholder="Enter your email address"
+            autocomplete="email"
             required={true}
           />
           <div class="actions">
