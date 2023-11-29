@@ -84,14 +84,19 @@
 </section>
 
 <section class="section">
-  <h3 class="section-title">Reviews</h3>
+  <h3 class="section-title">
+    Reviews
+    {#if data.product.review_count > 0}
+      <span class="count">({data.product.review_count})</span>
+    {/if}
+  </h3>
   {#if data.product.review_count > 0}
     <ul
       class="reviews-list max-md:space-y-4 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-4"
     >
       {#each data.product.reviews.items as review}
         <li class="review">
-          <div class="mb-1 flex flex-wrap gap-4">
+          <div class="mb-1 flex flex-wrap items-center gap-4 text-sm">
             <Rating value={review.average_rating} />
             <time datetime={review.created_at}>
               {formatDate(review.created_at)}
@@ -114,5 +119,9 @@
 
   .section-title {
     @apply mb-4 text-2xl;
+  }
+
+  .section-title .count {
+    @apply align-middle text-sm text-neutral-500;
   }
 </style>
