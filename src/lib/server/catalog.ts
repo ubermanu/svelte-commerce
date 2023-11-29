@@ -37,6 +37,7 @@ export async function getProduct(sku: string) {
             review_count
             reviews {
               items {
+                summary
                 average_rating
                 nickname
                 text

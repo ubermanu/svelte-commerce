@@ -96,14 +96,15 @@
     >
       {#each data.product.reviews.items as review}
         <li class="review">
-          <div class="mb-1 flex flex-wrap items-center gap-4 text-sm">
+          <div class="mb-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
             <Rating value={review.average_rating} />
             <time datetime={review.created_at}>
               {formatDate(review.created_at)}
             </time>
             <strong>{review.nickname}</strong>
           </div>
-          <div class="review-content">
+          <p class="mb-2 font-semibold">{review.summary}</p>
+          <div class="prose prose-sm prose-neutral">
             <p>{review.text}</p>
           </div>
         </li>
