@@ -14,22 +14,24 @@
         <span class="separator">/</span>
       {/if}
       {#if item.href && i < items.length - 1}
-        <a href={item.href}>{item.text}</a>
+        <a class="item" href={item.href}>{item.text}</a>
       {:else}
-        <span>{item.text}</span>
+        <span class="item">{item.text}</span>
       {/if}
     {/each}
   </ul>
 {/if}
 
-<style>
+<style lang="postcss">
   .breadcrumbs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin: 0;
-    padding: 0;
-    font-size: 0.8rem;
-    list-style: none;
+    @apply flex flex-row items-center gap-2 text-sm;
+  }
+
+  a.item {
+    @apply underline-offset-4 hover:underline;
+  }
+
+  span.item {
+    @apply text-neutral-500;
   }
 </style>
