@@ -2,6 +2,8 @@
   import Breadcrumbs from '$lib/components/Breadcrumbs.svelte'
   import PriceBox from '$lib/components/PriceBox.svelte'
   import { page } from '$app/stores'
+  import Input from '$lib/components/Form/Input.svelte'
+  import PageTitle from '$lib/components/PageTitle.svelte'
 
   export let data
 
@@ -15,25 +17,42 @@
 
 <Breadcrumbs items={breadcrumbs} />
 
-<img class="product image" src={data.product.image.url} alt="" />
+<PageTitle>{data.product.name}</PageTitle>
 
-<h1 class="product name">{data.product.name}</h1>
-<p class="product description">{@html data.product.description.html}</p>
+<div class="product max-md:space-y-4 md:grid md:grid-cols-2 md:gap-4">
+  <div class="product photo mx-auto max-w-md">
+    <img class="image w-full" src={data.product.image.url} alt="" />
+  </div>
 
-<PriceBox priceRange={data.product.price_range} />
+  <div class="product details space-y-4">
+    <p class="product description prose prose-neutral">
+      {@html data.product.description.html}
+    </p>
 
-<form action="/api/cart?/addProduct" method="POST">
-  <input type="hidden" name="return_url" value={$page.url.pathname} />
-  <input type="hidden" name="sku" value={data.product.sku} />
-  <input type="number" name="qty" value="1" />
-  <button type="submit">Add to cart</button>
-</form>
+    <PriceBox priceRange={data.product.price_range} />
 
-<style>
-  .product.image {
-    display: block;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 500px;
-  }
-</style>
+    <form
+      id="product_addtocart_form"
+      action="/api/cart?/addProduct"
+      method="POST"
+    >
+      <input type="hidden" name="return_url" value={$page.url.pathname} />
+      <input type="hidden" name="sku" value={data.product.sku} />
+      <div class="box-tocart flex items-center gap-1">
+        <Input
+          label="Quantity"
+          noLabel={true}
+          name="qty"
+          type="number"
+          min="1"
+          max="10"
+          step="1"
+          value="1"
+        />
+        <button type="submit" class="action primary to-cart">
+          Add to Cart
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

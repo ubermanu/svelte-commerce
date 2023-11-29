@@ -1,6 +1,7 @@
 <script>
   import Breadcrumbs from '$lib/components/Breadcrumbs.svelte'
   import ProductList from '$lib/components/ProductList.svelte'
+  import PageTitle from '$lib/components/PageTitle.svelte'
 
   export let data
 
@@ -16,6 +17,8 @@
 </svelte:head>
 
 <Breadcrumbs items={breadcrumbs} />
+
+<PageTitle>{data.category.name}</PageTitle>
 
 <h1 class="category name">{data.category.name}</h1>
 
