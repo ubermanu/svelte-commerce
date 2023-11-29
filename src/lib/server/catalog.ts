@@ -1,6 +1,10 @@
 import { magentoFetch } from '$lib/server/magento'
 import { gql } from 'graphql-request'
 
+// TODO: Limit to 1 result
+// TODO: Get more price info
+// TODO: Get reviews
+// TODO: Get variants in another query?
 export async function getProduct(sku: string) {
   const { products } = await magentoFetch({
     query: gql`
@@ -25,6 +29,19 @@ export async function getProduct(sku: string) {
               url
             }
             url_key
+            type_id
+
+            ... on ConfigurableProduct {
+              configurable_options {
+                attribute_code
+                attribute_id
+                label
+                values {
+                  uid
+                  label
+                }
+              }
+            }
           }
         }
       }

@@ -1,9 +1,10 @@
 <script lang="ts">
+  import { page } from '$app/stores'
   import Breadcrumbs from '$lib/components/Breadcrumbs.svelte'
   import PriceBox from '$lib/components/PriceBox.svelte'
-  import { page } from '$app/stores'
   import Input from '$lib/components/Form/Input.svelte'
   import PageTitle from '$lib/components/PageTitle.svelte'
+  import ConfigurableOptions from './ConfigurableOptions.svelte'
 
   export let data
 
@@ -48,6 +49,11 @@
     >
       <input type="hidden" name="return_url" value={$page.url.pathname} />
       <input type="hidden" name="sku" value={data.product.sku} />
+
+      {#if data.product.type_id === 'configurable'}
+        <ConfigurableOptions product={data.product} />
+      {/if}
+
       <div class="box-tocart flex items-center gap-1">
         <Input
           label="Quantity"
