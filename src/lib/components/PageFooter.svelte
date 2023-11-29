@@ -30,7 +30,6 @@
             noLabel={true}
             name="email"
             type="email"
-            id="newsletter"
             placeholder="Enter your email address"
             required={true}
           />
@@ -64,7 +63,7 @@
 </footer>
 
 <style lang="postcss">
-  .page-footer {
+  .footer.content {
     @apply container mx-auto px-4 py-6;
   }
 

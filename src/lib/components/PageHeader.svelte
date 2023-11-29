@@ -5,7 +5,7 @@
   import { Search, UserCircle } from 'svelte-lucide'
 </script>
 
-<header class="page-header">
+<header class="page-header mb-6 border-b border-neutral-300 px-4">
   <section class="header content">
     <a href="/" class="logo">
       <img
@@ -46,8 +46,8 @@
 </header>
 
 <style lang="postcss">
-  .page-header {
-    @apply container mx-auto px-4;
+  .header.content {
+    @apply container mx-auto;
   }
 
   .logo {
