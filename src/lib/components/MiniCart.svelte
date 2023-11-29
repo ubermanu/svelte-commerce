@@ -16,12 +16,12 @@
 </script>
 
 <a
-  class="mini-cart-button"
+  class="mini-cart-button p-2"
   href="/checkout/cart"
   on:click|preventDefault={toggle}
   title="My Cart"
 >
-  <ShoppingCart />
+  <ShoppingCart tabindex="-1" aria-hidden="true" />
 </a>
 
 <!-- Add collapsible to render the products in the cart -->
@@ -39,10 +39,13 @@
           <div class="product-item-details">
             <p class="product-item-name">{product.name}</p>
             <div class="product-item-price">
-              <PriceBox priceRange={product.price_range} />
+              <PriceBox
+                priceRange={product.price_range}
+                quantity={+item.quantity}
+              />
             </div>
             <div class="product-item-quantity">
-              Quantity: {item.quantity}
+              Qty: {item.quantity}
             </div>
           </div>
         </li>

@@ -2,7 +2,7 @@
   import { page } from '$app/stores'
   import MiniCart from '$lib/components/MiniCart.svelte'
   import Input from '$lib/components/Form/Input.svelte'
-  import { Search, UserCircle } from 'svelte-lucide'
+  import { Search, ShoppingCart, UserCircle } from 'svelte-lucide'
 
   $: data = $page.data
 </script>
@@ -22,19 +22,19 @@
           placeholder="Search..."
           value={$page.url.searchParams.get('q')}
         />
-        <button type="submit" class="action search">
-          <Search role="img" aria-label="Search" />
+        <button type="submit" class="action search" title="Search">
+          <Search tabindex="-1" />
         </button>
       </form>
     </div>
 
     {#if data?.customer}
-      <a class="customer" href="/customer/account" title="My Account">
-        <UserCircle />
+      <a class="customer p-2" href="/customer/account" title="My Account">
+        <UserCircle tabindex="-1" aria-hidden="true" />
       </a>
     {:else}
-      <a class="customer" href="/customer/account/login" title="Login">
-        <UserCircle />
+      <a class="customer p-2" href="/customer/account/login" title="Login">
+        <UserCircle tabindex="-1" aria-hidden="true" />
       </a>
     {/if}
 
@@ -68,6 +68,6 @@
   }
 
   .minisearch .action.search {
-    @apply ml-2;
+    @apply ml-1 p-2;
   }
 </style>
