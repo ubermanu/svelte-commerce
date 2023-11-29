@@ -26,16 +26,12 @@
 
 <PageTitle>{data.product.name}</PageTitle>
 
-<div class="product max-md:space-y-4 md:grid md:grid-cols-2 md:gap-4">
+<section class="section max-md:space-y-4 md:grid md:grid-cols-2 md:gap-8">
   <div class="product photo mx-auto max-w-md">
     <img class="image w-full" src={data.product.image.url} alt="" />
   </div>
 
   <div class="product details space-y-4">
-    <p class="product description prose prose-neutral">
-      {@html data.product.description.html}
-    </p>
-
     <PriceBox
       class="text-3xl"
       priceRange={data.product.price_range}
@@ -76,4 +72,21 @@
       </div>
     </form>
   </div>
-</div>
+</section>
+
+<section class="section">
+  <h3 class="section-title">Details</h3>
+  <p class="product description prose prose-neutral">
+    {@html data.product.description.html}
+  </p>
+</section>
+
+<style lang="postcss">
+  .section {
+    @apply mb-8;
+  }
+
+  .section-title {
+    @apply mb-4 text-2xl;
+  }
+</style>
