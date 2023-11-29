@@ -13,7 +13,9 @@
   ]
 </script>
 
-<footer class="page-footer mt-6 border-t border-neutral-300 py-6">
+<footer
+  class="page-footer mt-6 border-t border-neutral-300 py-6 dark:border-neutral-700"
+>
   <div
     class="footer content max-md:space-y-6 md:flex md:justify-between md:gap-2"
   >

@@ -5,7 +5,9 @@
   import { Search, UserCircle } from 'svelte-lucide'
 </script>
 
-<header class="page-header mb-6 border-b border-neutral-300">
+<header
+  class="page-header mb-6 border-b border-neutral-300 dark:border-neutral-700"
+>
   <section class="header content">
     <a href="/" class="logo">
       <img

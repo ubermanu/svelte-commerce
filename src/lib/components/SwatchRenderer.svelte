@@ -59,15 +59,16 @@
     name="super_attribute[{option.attribute_id}]"
     bind:value={$value}
     required
+    tabindex="-1"
   />
 </div>
 
 <style lang="postcss">
   .item {
-    @apply flex cursor-pointer items-center gap-2 border-2 border-transparent bg-neutral-200;
+    @apply flex cursor-pointer items-center gap-2 border-2 border-transparent bg-neutral-200 dark:bg-neutral-800;
   }
 
   .item.active {
-    @apply border-neutral-900 shadow-lg;
+    @apply border-neutral-900 shadow-lg dark:border-neutral-100;
   }
 </style>
