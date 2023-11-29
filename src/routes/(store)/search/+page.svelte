@@ -5,6 +5,7 @@
   import Sorter from '$lib/components/Toolbar/Sorter.svelte'
   import Pages from '$lib/components/Toolbar/Pages.svelte'
   import Limiter from '$lib/components/Toolbar/Limiter.svelte'
+  import PageTitle from '$lib/components/PageTitle.svelte'
 
   export let data
 </script>
@@ -12,6 +13,8 @@
 <svelte:head>
   <title>Search - {data.head.title}</title>
 </svelte:head>
+
+<PageTitle>Search</PageTitle>
 
 <div class="products">
   {#await data.streamed.products}
