@@ -22,30 +22,16 @@ export const actions: Actions = {
 
     // Configurable products have a `super_attribute` field
     const superAttributes = extractSuperAttributes(formData)
-    // console.log('superAttributes', superAttributes)
+    const selectedOptions = Array.from(superAttributes.values())
 
-    if (superAttributes.size > 0) {
-      try {
-        const selectedOptionIds = Array.from(superAttributes.values())
-        const result = await cart.addConfigurableProductToCart(
-          cartId,
-          { sku, quantity, selectedOptionIds },
-          locals.loggedIn ? token : ''
-        )
-        console.log('result', result)
-      } catch (error: any) {
-        // TODO: Get the error message from the error object
-      }
-    } else {
-      try {
-        const result = await cart.addProductToCart(
-          cartId,
-          { sku, quantity },
-          locals.loggedIn ? token : ''
-        )
-      } catch (error: any) {
-        // TODO: Get the error message from the error object
-      }
+    try {
+      await cart.addProductToCart(
+        cartId,
+        { sku, quantity, selectedOptions },
+        locals.loggedIn ? token : ''
+      )
+    } catch (error: any) {
+      // TODO: Get the error message from the error object
     }
 
     throw redirect(302, returnUrl ?? '/')

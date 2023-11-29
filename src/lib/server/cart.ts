@@ -91,11 +91,12 @@ export async function getCart(cartId: string, token?: string) {
 interface AddProductToCartPayload {
   sku: string
   quantity: number
+  selectedOptions?: string[]
 }
 
 export async function addProductToCart(
   cartId: string,
-  { sku, quantity }: AddProductToCartPayload,
+  { sku, quantity, selectedOptions }: AddProductToCartPayload,
   token?: string
 ) {
   const { addProductsToCart: cart } = await magentoFetch({
@@ -119,49 +120,7 @@ export async function addProductToCart(
       cartItem: {
         quantity,
         sku,
-      },
-    },
-    headers: token ? { authorization: `Bearer ${token}` } : {},
-  })
-
-  return cart
-}
-
-interface AddConfigurableProductToCartPayload extends AddProductToCartPayload {
-  selectedOptionIds: string[]
-}
-
-// TODO: Merge this with addProductToCart
-export async function addConfigurableProductToCart(
-  cartId: string,
-  { sku, quantity, selectedOptionIds }: AddConfigurableProductToCartPayload,
-  token?: string
-) {
-  const { addProductsToCart: cart } = await magentoFetch({
-    query: gql`
-      mutation AddConfigurableProductToCart(
-        $cartId: String!
-        $cartItem: CartItemInput!
-      ) {
-        addProductsToCart(cartId: $cartId, cartItems: [$cartItem]) {
-          cart {
-            items {
-              id
-              product {
-                sku
-              }
-              quantity
-            }
-          }
-        }
-      }
-    `,
-    variables: {
-      cartId,
-      cartItem: {
-        quantity,
-        sku,
-        selected_options: selectedOptionIds,
+        selected_options: selectedOptions ?? [],
       },
     },
     headers: token ? { authorization: `Bearer ${token}` } : {},
