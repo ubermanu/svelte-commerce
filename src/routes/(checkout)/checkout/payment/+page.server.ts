@@ -50,6 +50,7 @@ export const actions: Actions = {
 
     return {
       success: true,
+      message: 'Billing address has been set',
     }
   },
 
@@ -79,6 +80,7 @@ export const actions: Actions = {
 
     return {
       success: true,
+      message: 'Payment method has been set',
     }
   },
 

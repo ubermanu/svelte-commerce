@@ -7,7 +7,6 @@
   import Fieldset from '$lib/components/Form/Fieldset.svelte'
 
   export let data
-  export let form
 
   let password = ''
   let showPassword = false
@@ -20,18 +19,6 @@
 <svelte:head>
   <title>Sign Up - {data.head.title}</title>
 </svelte:head>
-
-{#if form?.errors}
-  <ul>
-    {#each form.errors as error}
-      <li>{error}</li>
-    {/each}
-  </ul>
-{/if}
-
-{#if form?.success}
-  <p>Account created successfully</p>
-{/if}
 
 <PageTitle>Create New Customer Account</PageTitle>
 

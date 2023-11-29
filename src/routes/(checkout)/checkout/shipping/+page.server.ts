@@ -64,6 +64,7 @@ export const actions: Actions = {
 
     return {
       success: true,
+      message: 'Shipping address has been set',
     }
   },
 
@@ -98,6 +99,7 @@ export const actions: Actions = {
 
     return {
       success: true,
+      message: 'Shipping method has been set',
     }
   },
 

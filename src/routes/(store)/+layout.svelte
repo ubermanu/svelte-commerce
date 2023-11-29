@@ -1,11 +1,15 @@
 <script>
   import PageHeader from '$lib/components/PageHeader.svelte'
   import PageFooter from '$lib/components/PageFooter.svelte'
+  import FormMessages from '$lib/components/FormMessages.svelte'
+
+  export let form
 </script>
 
 <div class="page-wrapper">
   <PageHeader />
   <main class="page-main">
+    <FormMessages />
     <slot />
   </main>
   <PageFooter />

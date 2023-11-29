@@ -45,6 +45,9 @@ export const actions: Actions = {
       }
     }
 
-    return { success: true }
+    return {
+      success: true,
+      message: 'Your account has been successfully created!',
+    }
   },
 }

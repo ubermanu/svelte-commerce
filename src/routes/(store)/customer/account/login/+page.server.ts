@@ -38,6 +38,6 @@ export const actions: Actions = {
       }
     }
 
-    return { success: true }
+    return { success: true, message: 'You are now logged in' }
   },
 }

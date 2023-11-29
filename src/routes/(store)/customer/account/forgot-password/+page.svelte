@@ -5,24 +5,11 @@
   import Fieldset from '$lib/components/Form/Fieldset.svelte'
 
   export let data
-  export let form
 </script>
 
 <svelte:head>
   <title>Forgot Your Password? - {data.head.title}</title>
 </svelte:head>
-
-{#if form?.errors}
-  <ul>
-    {#each form.errors as error}
-      <li>{error}</li>
-    {/each}
-  </ul>
-{/if}
-
-{#if form?.success}
-  <p>{form.success}</p>
-{/if}
 
 <PageTitle>Forgot Your Password?</PageTitle>
 
