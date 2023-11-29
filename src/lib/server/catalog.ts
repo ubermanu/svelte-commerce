@@ -18,6 +18,7 @@ export async function getProduct(sku: string) {
               html
             }
             sku
+            stock_status
             price_range {
               minimum_price {
                 regular_price {
@@ -31,6 +32,17 @@ export async function getProduct(sku: string) {
             }
             url_key
             type_id
+
+            rating_summary
+            review_count
+            reviews {
+              items {
+                average_rating
+                nickname
+                text
+                created_at
+              }
+            }
 
             ... on ConfigurableProduct {
               configurable_options {

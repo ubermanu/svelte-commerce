@@ -5,6 +5,8 @@
   import Input from '$lib/components/Form/Input.svelte'
   import PageTitle from '$lib/components/PageTitle.svelte'
   import SwatchRenderer from '$lib/components/SwatchRenderer.svelte'
+  import Rating from '$lib/components/Rating.svelte'
+  import { formatDate } from '$lib/helpers/date'
 
   export let data
 
@@ -79,6 +81,30 @@
   <p class="product description prose prose-neutral">
     {@html data.product.description.html}
   </p>
+</section>
+
+<section class="section">
+  <h3 class="section-title">Reviews</h3>
+  {#if data.product.review_count > 0}
+    <ul
+      class="reviews-list max-md:space-y-4 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-4"
+    >
+      {#each data.product.reviews.items as review}
+        <li class="review">
+          <div class="mb-1 flex flex-wrap gap-4">
+            <Rating value={review.average_rating} />
+            <time datetime={review.created_at}>
+              {formatDate(review.created_at)}
+            </time>
+            <strong>{review.nickname}</strong>
+          </div>
+          <div class="review-content">
+            <p>{review.text}</p>
+          </div>
+        </li>
+      {/each}
+    </ul>
+  {/if}
 </section>
 
 <style lang="postcss">
