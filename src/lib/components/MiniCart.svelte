@@ -1,35 +1,20 @@
 <script lang="ts">
   import PriceBox from '$lib/components/PriceBox.svelte'
-  import clickOutside from '$lib/actions/clickOutside'
-  import { writable } from 'svelte/store'
   import { ShoppingCart } from 'svelte-lucide'
+  import { createPopover, melt } from '@melt-ui/svelte'
 
   export let cart: any
-  // console.log(cart)
 
-  // Create a store to keep track of the visibility of the mini cart
-  const visible = writable(false)
-
-  function toggle() {
-    $visible = !$visible
-  }
+  const {
+    elements: { trigger, content },
+  } = createPopover()
 </script>
 
-<a
-  class="mini-cart-button p-2"
-  href="/checkout/cart"
-  on:click|preventDefault={toggle}
-  title="My Cart"
->
+<button use:melt={$trigger} class="mini-cart-button p-2" title="My Cart">
   <ShoppingCart tabindex="-1" aria-hidden="true" />
-</a>
+</button>
 
-<!-- Add collapsible to render the products in the cart -->
-<div
-  class="mini-cart"
-  style:display={$visible ? null : 'none'}
-  use:clickOutside={() => ($visible = false)}
->
+<div use:melt={$content} class="mini-cart">
   {#if cart.items.length > 0}
     <ul>
       {#each cart.items as item}
@@ -59,9 +44,6 @@
 
 <style>
   .mini-cart {
-    position: absolute;
-    top: 10rem;
-    right: 0;
     border: 1px solid black;
     background: white;
     padding: 1rem;
