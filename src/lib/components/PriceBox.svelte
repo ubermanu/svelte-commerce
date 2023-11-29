@@ -14,6 +14,8 @@
 
   export let quantity: number = 1
 
+  // TODO: Add support for tier prices
+
   const { class: additionalClasses = '', ...restProps } = $$restProps
 </script>
 

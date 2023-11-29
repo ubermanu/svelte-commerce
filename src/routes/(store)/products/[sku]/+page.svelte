@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Breadcrumbs from '$lib/components/Breadcrumbs.svelte'
   import PriceBox from '$lib/components/PriceBox.svelte'
   import { page } from '$app/stores'
@@ -9,6 +9,12 @@
 
   // TODO: Add category to breadcrumbs
   const breadcrumbs = [{ text: 'Home', href: '/' }, { text: data.product.name }]
+
+  let quantity: number = 1
+
+  function handleQuantityChange(event: Event) {
+    quantity = +(event.target as HTMLInputElement).value
+  }
 </script>
 
 <svelte:head>
@@ -29,7 +35,11 @@
       {@html data.product.description.html}
     </p>
 
-    <PriceBox class="text-3xl" priceRange={data.product.price_range} />
+    <PriceBox
+      class="text-3xl"
+      priceRange={data.product.price_range}
+      {quantity}
+    />
 
     <form
       id="product_addtocart_form"
@@ -48,6 +58,7 @@
           max="10"
           step="1"
           value="1"
+          on:input={handleQuantityChange}
         />
         <button type="submit" class="action primary to-cart">
           Add to Cart
