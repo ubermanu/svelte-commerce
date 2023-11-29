@@ -8,7 +8,7 @@
   // Calculate the password strength
   $: strength = password ? zxcvbn(password).score + 1 : 0
 
-  const labels = {
+  const labels: Record<number, string> = {
     0: 'No Password',
     1: 'Very Weak',
     2: 'Weak',
@@ -17,18 +17,18 @@
     5: 'Very Strong',
   }
 
-  const colors = {
+  const colors: Record<number, string> = {
     0: '',
-    1: 'bg-red-400',
-    2: 'bg-red-400',
-    3: 'bg-yellow-400',
-    4: 'bg-green-400',
-    5: 'bg-green-400',
+    1: 'bg-red-400 dark:bg-red-800',
+    2: 'bg-red-400 dark:bg-red-800',
+    3: 'bg-yellow-400 dark:bg-yellow-700',
+    4: 'bg-green-400 dark:bg-green-800',
+    5: 'bg-green-400 dark:bg-green-800',
   }
 </script>
 
 <div
-  class="password-strength-meter relative z-0 mt-2 flex items-center rounded-sm bg-neutral-200 p-1"
+  class="password-strength-meter relative z-0 mt-2 flex items-center rounded-sm bg-neutral-200 p-1 dark:bg-neutral-700"
   aria-live="polite"
 >
   <span class="px-2 text-sm">

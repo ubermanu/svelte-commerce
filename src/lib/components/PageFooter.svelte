@@ -58,7 +58,9 @@
     {/if}
   </div>
 
-  <p class="copyright mt-6 text-xs text-neutral-700 md:text-center">
+  <p
+    class="copyright mt-6 text-xs text-neutral-700 dark:text-neutral-300 md:text-center"
+  >
     {$page.data.footer?.copyright}
   </p>
 </footer>

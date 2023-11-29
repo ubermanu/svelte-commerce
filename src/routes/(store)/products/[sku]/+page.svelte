@@ -78,7 +78,7 @@
 
 <section class="section">
   <h3 class="section-title">Details</h3>
-  <p class="product description prose prose-neutral">
+  <p class="product description prose prose-neutral dark:prose-invert">
     {@html data.product.description.html}
   </p>
 </section>
@@ -104,7 +104,7 @@
             <strong>{review.nickname}</strong>
           </div>
           <p class="mb-2 font-semibold">{review.summary}</p>
-          <div class="prose prose-sm prose-neutral">
+          <div class="prose prose-sm prose-neutral dark:prose-invert">
             <p>{review.text}</p>
           </div>
         </li>
