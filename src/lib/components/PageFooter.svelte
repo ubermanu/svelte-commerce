@@ -13,7 +13,7 @@
   ]
 </script>
 
-<footer class="page-footer mt-6 border-t border-neutral-300">
+<footer class="page-footer mt-6 border-t border-neutral-300 py-6">
   <div
     class="footer content max-md:space-y-6 md:flex md:justify-between md:gap-2"
   >
@@ -64,8 +64,9 @@
 </footer>
 
 <style lang="postcss">
-  .footer.content {
-    @apply container mx-auto px-4 py-6;
+  .footer.content,
+  .copyright {
+    @apply container mx-auto px-4;
   }
 
   .form.subscribe {
