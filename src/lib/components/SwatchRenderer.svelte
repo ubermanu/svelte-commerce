@@ -14,8 +14,9 @@
   export let option: Option
 
   const {
-    elements: { root, item, hiddenInput },
+    elements: { root, item },
     helpers: { isChecked },
+    states: { value },
   } = createRadioGroup({
     required: true,
     orientation: 'horizontal',
@@ -53,9 +54,11 @@
     {/each}
   </ul>
   <input
-    type="hidden"
+    class="absolute m-0 h-0 p-0 opacity-0"
+    type="text"
     name="super_attribute[{option.attribute_id}]"
-    use:melt={$hiddenInput}
+    bind:value={$value}
+    required
   />
 </div>
 
