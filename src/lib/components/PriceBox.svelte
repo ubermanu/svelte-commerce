@@ -13,10 +13,12 @@
   export let priceRange: Partial<PriceRange>
 
   export let quantity: number = 1
+
+  const { class: additionalClasses = '', ...restProps } = $$restProps
 </script>
 
 {#if priceRange && priceRange.minimum_price}
-  <div class="price-box">
+  <div class="price-box font-semibold {additionalClasses}" {...restProps}>
     <span
       class="price"
       data-currency={priceRange.minimum_price.regular_price.currency}

@@ -29,7 +29,7 @@
       {@html data.product.description.html}
     </p>
 
-    <PriceBox priceRange={data.product.price_range} />
+    <PriceBox class="text-3xl" priceRange={data.product.price_range} />
 
     <form
       id="product_addtocart_form"
