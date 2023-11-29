@@ -6,6 +6,7 @@ Svelte Commerce is a fully open source, headless, e-commerce platform built with
 
 - SvelteKit
 - Magento 2 GraphQL
+- Melt UI
 - Tailwind CSS
 - TypeScript
 
