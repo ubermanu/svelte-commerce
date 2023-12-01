@@ -1,7 +1,7 @@
 import { magentoFetch } from '$lib/server/magento'
 import { gql } from 'graphql-request'
 
-export async function getCustomer(token: string) {
+export async function getCustomer(token: string): Promise<{} | null> {
   if (!token) {
     return null
   }

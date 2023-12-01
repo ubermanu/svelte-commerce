@@ -6,16 +6,13 @@ declare global {
   namespace App {
     // interface Error {}
     interface Locals {
-      customer: any | null
+      customer: {} | null
       loggedIn: boolean
-      cartId: string
-      cart: any | null
-      storeConfig: any
-      customerToken?: string
+      cart: {} | null
+      storeConfig: {}
       session: {
-        data: {}
-        error: boolean
-        message: string
+        customerToken?: string
+        cartId?: string
       }
     }
     interface PageData {
