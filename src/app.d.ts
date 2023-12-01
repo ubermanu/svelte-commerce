@@ -11,7 +11,7 @@ declare global {
       cart: {} | null
       storeConfig: {}
       session: {
-        customerToken?: string
+        token?: string
         cartId?: string
       }
     }

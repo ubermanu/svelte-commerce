@@ -3,14 +3,14 @@ import type { RequestHandler } from '@sveltejs/kit'
 import { redirect } from '@sveltejs/kit'
 import { gql } from 'graphql-request'
 
-export const GET: RequestHandler = async ({ cookies }) => {
-  const token = cookies.get('token')
+export const GET: RequestHandler = async ({ locals }) => {
+  const { token } = locals.session
 
   if (!token) {
     throw redirect(302, '/customer/account/login')
   }
 
-  const result = await magentoFetch({
+  const { revokeCustomerToken } = await magentoFetch({
     query: gql`
       mutation {
         revokeCustomerToken {
@@ -24,9 +24,9 @@ export const GET: RequestHandler = async ({ cookies }) => {
     },
   })
 
-  if (result?.revokeCustomerToken?.result) {
-    cookies.delete('token')
-    cookies.delete('cart_id')
+  if (revokeCustomerToken?.result) {
+    delete locals.session.token
+    delete locals.session.cartId
     throw redirect(302, '/customer/account/logout/success')
   }
 

@@ -10,11 +10,9 @@ export const actions: Actions = {
    * @param locals
    * @param cookies
    */
-  addProduct: async ({ request, locals, cookies }) => {
+  addProduct: async ({ request, locals }) => {
     const formData = await request.formData()
-
-    const { cartId } = locals
-    const token = cookies.get('token')
+    const { cartId, token } = locals.session
 
     const returnUrl = String(formData.get('return_url'))
     const sku = String(formData.get('sku'))
@@ -26,7 +24,7 @@ export const actions: Actions = {
 
     try {
       await cart.addProductToCart(
-        cartId,
+        cartId!,
         { sku, quantity, selectedOptions },
         locals.loggedIn ? token : ''
       )
