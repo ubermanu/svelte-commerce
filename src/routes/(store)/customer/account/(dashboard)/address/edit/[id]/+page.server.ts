@@ -1,10 +1,9 @@
 import type { Actions, ServerLoad } from '@sveltejs/kit'
 
-export const load: ServerLoad = async ({ locals }) => {
+export const load: ServerLoad = async ({ params }) => {
   // TODO: Get those values from the address to edit.
   return {
-    isDefaultShippingAddress: true,
-    isDefaultBillingAddress: true,
+    address: {},
   }
 }
 

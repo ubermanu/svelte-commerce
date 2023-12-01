@@ -13,21 +13,6 @@ export async function getCustomer(token: string) {
           customer {
             firstname
             lastname
-            suffix
-            email
-            addresses {
-              firstname
-              lastname
-              street
-              city
-              region {
-                region_code
-                region
-              }
-              postcode
-              country_code
-              telephone
-            }
           }
         }
       `,
@@ -39,6 +24,43 @@ export async function getCustomer(token: string) {
     return customer
   } catch (error: any) {
     // console.error(error)
+    return null
+  }
+}
+
+export async function getCustomerAddresses(token: string) {
+  if (!token) {
+    return null
+  }
+
+  try {
+    const { customer } = await magentoFetch({
+      query: gql`
+        {
+          customer {
+            addresses {
+              id
+              firstname
+              lastname
+              street
+              company
+              city
+              postcode
+              country_code
+              telephone
+              default_shipping
+              default_billing
+            }
+          }
+        }
+      `,
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    })
+
+    return customer.addresses
+  } catch (error: any) {
     return null
   }
 }

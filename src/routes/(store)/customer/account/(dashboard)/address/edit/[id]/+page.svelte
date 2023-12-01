@@ -9,13 +9,13 @@
 <PageTitle>Edit Address</PageTitle>
 
 <div class="messages mb-6 space-y-2 empty:hidden">
-  {#if data.isDefaultShippingAddress}
+  {#if data.address.default_billing}
     <Message level="info">
       <p>It's a default billing address.</p>
     </Message>
   {/if}
 
-  {#if data.isDefaultBillingAddress}
+  {#if data.address.default_shipping}
     <Message level="info">
       <p>It's a default shipping address.</p>
     </Message>

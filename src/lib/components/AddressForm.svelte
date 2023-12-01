@@ -6,6 +6,9 @@
 
   export let action: string
   export let data: { countries: any[] }
+
+  // TODO: Prefill form with data from address
+  export let values: Record<string, any> = {}
 </script>
 
 <form {action} method="post" class="form-address-edit space-y-6">
