@@ -3,6 +3,7 @@
   import MiniCart from '$lib/components/MiniCart.svelte'
   import Input from '$lib/components/Form/Input.svelte'
   import { Search, UserCircle } from 'svelte-lucide'
+  import DarkMode from '$lib/components/DarkMode.svelte'
 </script>
 
 <header
@@ -32,6 +33,8 @@
         </button>
       </form>
     </div>
+
+    <DarkMode />
 
     {#if $page.data.customer}
       <a class="customer p-2" href="/customer/account" title="My Account">
