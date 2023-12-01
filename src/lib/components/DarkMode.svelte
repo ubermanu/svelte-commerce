@@ -47,11 +47,11 @@
 </button>
 
 <style lang="postcss">
-  :global(html.dark .moon) {
+  :global(html.dark .sun) {
     display: none;
   }
 
-  :global(html:not(.dark) .sun) {
+  :global(html:not(.dark) .moon) {
     display: none;
   }
 </style>
