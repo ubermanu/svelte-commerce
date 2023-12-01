@@ -37,7 +37,11 @@
   </script>
 </svelte:head>
 
-<button type="button" class="theme-switcher p2" on:click={toggleDarkMode}>
+<button
+  type="button"
+  class="theme-switcher rounded p-2"
+  on:click={toggleDarkMode}
+>
   <Sun class="sun" tabindex="-1" />
   <Moon class="moon" tabindex="-1" />
 </button>

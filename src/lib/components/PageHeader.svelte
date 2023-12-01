@@ -37,11 +37,19 @@
     <DarkMode />
 
     {#if $page.data.customer}
-      <a class="customer p-2" href="/customer/account" title="My Account">
+      <a
+        class="customer rounded p-2"
+        href="/customer/account"
+        title="My Account"
+      >
         <UserCircle tabindex="-1" aria-hidden="true" />
       </a>
     {:else}
-      <a class="customer p-2" href="/customer/account/login" title="Login">
+      <a
+        class="customer rounded p-2"
+        href="/customer/account/login"
+        title="Login"
+      >
         <UserCircle tabindex="-1" aria-hidden="true" />
       </a>
     {/if}

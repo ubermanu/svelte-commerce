@@ -14,7 +14,11 @@
   })
 </script>
 
-<button use:melt={$trigger} class="mini-cart-button p-2" title="My Cart">
+<button
+  use:melt={$trigger}
+  class="mini-cart-button rounded p-2"
+  title="My Cart"
+>
   <ShoppingCart tabindex="-1" aria-hidden="true" />
 </button>
 
