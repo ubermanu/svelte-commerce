@@ -29,7 +29,7 @@
   }
 
   .alert-info {
-    @apply bg-neutral-100 text-neutral-900;
+    @apply bg-blue-100 text-blue-900;
   }
 
   .alert-success {
