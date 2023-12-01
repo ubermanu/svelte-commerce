@@ -26,6 +26,7 @@ export const GET: RequestHandler = async ({ cookies }) => {
 
   if (result?.revokeCustomerToken?.result) {
     cookies.delete('token')
+    cookies.delete('cart_id')
     throw redirect(302, '/customer/account/logout/success')
   }
 
