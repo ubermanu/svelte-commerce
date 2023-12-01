@@ -110,7 +110,7 @@ export async function getShippingMethods(cartId: string, token?: string) {
   // TODO: Get the shipping methods for the current address
   // TODO: Filter out the unavailable shipping methods
   // TODO: Add a selected property to the shipping methods
-  return cart.shipping_addresses[0].available_shipping_methods
+  return cart.shipping_addresses[0]?.available_shipping_methods ?? []
 }
 
 interface ShippingMethod {
