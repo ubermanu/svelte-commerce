@@ -13,6 +13,8 @@ export async function getCustomer(token: string) {
           customer {
             firstname
             lastname
+            email
+            allow_remote_shopping_assistance
           }
         }
       `,
@@ -153,5 +155,95 @@ export async function setCustomerNewsletterSubscription(
     return !!updateCustomer.customer.is_subscribed
   } catch (error: any) {
     return false
+  }
+}
+
+interface CustomerUpdatePayload {
+  firstname: string
+  lastname: string
+  email?: string
+  currentPassword?: string
+  newPassword?: string
+  assistanceAllowed?: boolean
+}
+
+// If the email is given, currentPassword is required (add mutation to update email)
+// If newPassword is given, currentPassword is required (add mutation to update password)
+// TODO: `allow_remote_shopping_assistance` is not supported yet
+export async function updateCustomerInformation(
+  token: string,
+  {
+    firstname,
+    lastname,
+    email,
+    currentPassword,
+    newPassword,
+  }: CustomerUpdatePayload
+) {
+  if (!token) {
+    return
+  }
+
+  if (email && !currentPassword) {
+    throw new Error('Current password is required to update email.')
+  }
+
+  if (newPassword && !currentPassword) {
+    throw new Error('Current password is required to update password.')
+  }
+
+  try {
+    await magentoFetch({
+      query: gql`
+        mutation UpdateCustomerInformation(
+          $firstname: String!
+          $lastname: String!
+          $email: String!
+          $currentPassword: String!
+          $newPassword: String!
+          $updateCustomerEmail: Boolean!
+          $updateCustomerPassword: Boolean!
+        ) {
+          updateCustomer(
+            input: { firstname: $firstname, lastname: $lastname }
+          ) {
+            customer {
+              firstname
+              lastname
+            }
+          }
+
+          updateCustomerEmail(email: $email, password: $currentPassword)
+            @include(if: $updateCustomerEmail) {
+            customer {
+              email
+            }
+          }
+
+          changeCustomerPassword(
+            currentPassword: $currentPassword
+            newPassword: $newPassword
+          ) @include(if: $updateCustomerPassword) {
+            id
+            email
+          }
+        }
+      `,
+      variables: {
+        firstname,
+        lastname,
+        // FIXME: Not a fan of this, but it works for now
+        email: email ?? '',
+        currentPassword: currentPassword ?? '',
+        newPassword: newPassword ?? '',
+        updateCustomerEmail: !!email,
+        updateCustomerPassword: !!newPassword,
+      },
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    })
+  } catch (error: any) {
+    throw new Error(error.response.errors[0].message)
   }
 }

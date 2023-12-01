@@ -7,7 +7,13 @@
 </script>
 
 <Field {label} {noLabel} {required} let:id>
-  <input {id} {...$$restProps} on:input class="form-input dark:bg-gray-800" />
+  <input
+    {id}
+    {required}
+    {...$$restProps}
+    on:input
+    class="form-input dark:bg-gray-800"
+  />
   <slot />
 </Field>
 
