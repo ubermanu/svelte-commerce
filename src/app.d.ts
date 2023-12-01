@@ -12,6 +12,11 @@ declare global {
       cart: any | null
       storeConfig: any
       customerToken?: string
+      session: {
+        data: {}
+        error: boolean
+        message: string
+      }
     }
     interface PageData {
       cmsPage?: any

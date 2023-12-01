@@ -1,10 +1,24 @@
 import { createCustomerCart, createGuestCart, getCart } from '$lib/server/cart'
 import { getCustomer } from '$lib/server/customer'
+import { sessionManager } from '$lib/server/session'
 import { getStoreConfig } from '$lib/server/store'
 import type { Handle, RequestEvent } from '@sveltejs/kit'
 import { redirect } from '@sveltejs/kit'
 
 export const handle: Handle = async ({ event, resolve }) => {
+  let session = await sessionManager.getSession(event.cookies)
+
+  // If the session is invalid, create a new one
+  if (session.error) {
+    session = await sessionManager.createSession(
+      event.cookies,
+      {},
+      crypto.randomUUID()
+    )
+  }
+
+  event.locals.session = session
+
   // TODO: Refresh the token if it's expired
   const token = event.cookies.get('token') || ''
 
@@ -30,7 +44,15 @@ export const handle: Handle = async ({ event, resolve }) => {
   // If the customer tries to access the dashboard without being logged in, redirect to the login page
   restrictAccessToCustomerAccount(event)
 
-  return resolve(event)
+  const response = resolve(event)
+
+  // Commit the session to the database
+  // TODO: Only update the session if it has changed
+  if (!session.error) {
+    await sessionManager.updateSession(event.cookies, event.locals.session.data)
+  }
+
+  return response
 }
 
 /** Create a cart for the current user, and return the cartId. */
