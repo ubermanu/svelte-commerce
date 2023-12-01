@@ -11,6 +11,7 @@ declare global {
       cartId: string
       cart: any | null
       storeConfig: any
+      customerToken?: string
     }
     interface PageData {
       cmsPage?: any

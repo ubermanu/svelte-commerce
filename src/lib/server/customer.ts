@@ -64,3 +64,36 @@ export async function getCustomerAddresses(token: string) {
     return null
   }
 }
+
+export async function getCustomerOrders(token: string) {
+  if (!token) {
+    return null
+  }
+
+  try {
+    const { customer } = await magentoFetch({
+      query: gql`
+        {
+          customer {
+            orders {
+              items {
+                id
+                number
+                created_at
+                grand_total
+                status
+              }
+            }
+          }
+        }
+      `,
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    })
+
+    return customer.orders
+  } catch (error: any) {
+    return null
+  }
+}

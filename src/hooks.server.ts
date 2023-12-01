@@ -11,10 +11,12 @@ export const handle: Handle = async ({ event, resolve }) => {
   // Set the customer on the event locals
   event.locals.customer = await getCustomer(token)
   event.locals.loggedIn = !!event.locals.customer
+  event.locals.customerToken = token
 
   // If the user is not logged in, remove the token cookie
   if (!event.locals.loggedIn) {
     event.cookies.delete('token')
+    event.locals.customerToken = undefined
   }
 
   // Assign the active cartId to the event locals
