@@ -63,9 +63,18 @@
         {/if}
       </div>
       <div class="box-actions">
-        <a class="action edit" href="/customer/account/address/edit">
-          Edit Address
-        </a>
+        {#if data.billingAddress}
+          <a
+            class="action edit"
+            href="/customer/account/address/edit/{data.billingAddress.id}"
+          >
+            Edit Address
+          </a>
+        {:else}
+          <a class="action edit" href="/customer/account/address/new">
+            New Address
+          </a>
+        {/if}
       </div>
     </div>
     <div class="box box-shipping-address">
@@ -80,9 +89,18 @@
         {/if}
       </div>
       <div class="box-actions">
-        <a class="action edit" href="/customer/account/address/edit">
-          Edit Address
-        </a>
+        {#if data.shippingAddress}
+          <a
+            class="action edit"
+            href="/customer/account/address/edit/{data.shippingAddress.id}"
+          >
+            Edit Address
+          </a>
+        {:else}
+          <a class="action edit" href="/customer/account/address/new">
+            New Address
+          </a>
+        {/if}
       </div>
     </div>
   </div>

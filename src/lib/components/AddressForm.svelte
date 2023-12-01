@@ -59,6 +59,7 @@
       required
     />
   </Fieldset>
+  <slot name="additional" />
   <ActionsToolbar>
     <button slot="primary" type="submit" class="action save primary">
       Save Address
