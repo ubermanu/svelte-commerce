@@ -24,7 +24,7 @@
 
 <div
   use:melt={$content}
-  class="mini-cart w-full max-w-lg bg-white p-4 pt-8 shadow-lg"
+  class="mini-cart w-full max-w-lg rounded-lg bg-white p-4 pt-8 shadow-lg"
 >
   <button
     use:melt={$close}

@@ -1,0 +1,39 @@
+.customer {
+  .block-title {
+    @apply mb-4;
+
+    h2 {
+      @apply inline-block text-2xl font-bold;
+    }
+    .action {
+      @apply ml-2;
+    }
+  }
+
+  .block-content {
+    @apply max-md:space-y-4 md:grid md:grid-cols-2 md:gap-4;
+  }
+
+  .box {
+    @apply rounded-lg bg-white p-4 shadow dark:bg-gray-800;
+
+    .box-title {
+      @apply mb-2 text-lg font-semibold;
+    }
+
+    .box-actions {
+      @apply flex gap-2;
+
+      .action {
+        @apply mt-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200;
+      }
+    }
+  }
+
+  .box,
+  .block {
+    .action {
+      @apply hover:underline hover:underline-offset-4;
+    }
+  }
+}
