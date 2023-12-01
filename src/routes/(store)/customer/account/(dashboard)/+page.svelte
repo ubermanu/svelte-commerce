@@ -4,7 +4,7 @@
   export let data
 </script>
 
-<PageTitle class="mt-0">My Account</PageTitle>
+<PageTitle>My Account</PageTitle>
 
 <div class="block-dashboard-info mb-8 block">
   <div class="block-title">

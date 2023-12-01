@@ -1,0 +1,17 @@
+<script lang="ts">
+  import Select from '$lib/components/Form/Select.svelte'
+
+  interface Country {
+    id: number
+    full_name_locale: string
+  }
+
+  export let countries: Partial<Country>[]
+</script>
+
+<Select label="Country" {...$$restProps}>
+  <option value=""></option>
+  {#each countries as country}
+    <option value={country.id}>{country.full_name_locale}</option>
+  {/each}
+</Select>
