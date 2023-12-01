@@ -6,13 +6,7 @@
 
 <fieldset class="fieldset space-y-4 {additionalClasses}" {...restProps}>
   {#if legend}
-    <legend class="legend">{legend}</legend>
+    <legend class="legend mb-1 w-full text-lg font-light">{legend}</legend>
   {/if}
   <slot />
 </fieldset>
-
-<style lang="postcss">
-  .legend {
-    @apply mb-1 w-full text-lg;
-  }
-</style>
