@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from '$app/stores'
   import PageTitle from '$lib/components/PageTitle.svelte'
   import Fieldset from '$lib/components/Form/Fieldset.svelte'
   import Input from '$lib/components/Form/Input.svelte'
@@ -8,8 +9,8 @@
 
   export let data
 
-  let changeEmail = false
-  let changePassword = false
+  let changeEmail = $page.url.searchParams.has('changeEmail')
+  let changePassword = $page.url.searchParams.has('changePass')
   let showPassword = false
 
   let additionalLegend = ''
