@@ -63,7 +63,7 @@ async function createCart(event: RequestEvent): Promise<string> {
 
 function restrictAccessToCustomerAccount(event: RequestEvent): void {
   if (
-    event.url.pathname.startsWith('/customer/account') &&
+    event.url.pathname.startsWith('/customer') &&
     !event.locals.loggedIn &&
     ![
       '/customer/account/create',

@@ -4,21 +4,21 @@
 
   const links = [
     { text: 'My Account', href: '/customer/account' },
-    { text: 'My Orders', href: '/customer/account/orders' },
+    { text: 'My Orders', href: '/customer/orders' },
     {
       text: 'My Downloadable Products',
-      href: '/customer/account/downloadable',
+      href: '/customer/downloadable',
     },
-    { text: 'My Wish List', href: '/customer/account/wishlist' },
+    { text: 'My Wish List', href: '/customer/wishlist' },
     { separator: true },
-    { text: 'Address Book', href: '/customer/account/address' },
+    { text: 'Address Book', href: '/customer/address' },
     { text: 'Account Information', href: '/customer/account/edit' },
-    { text: 'Stored Payment Methods', href: '/customer/account/vault' },
+    { text: 'Stored Payment Methods', href: '/customer/vault' },
     { separator: true },
-    { text: 'My Product Reviews', href: '/customer/account/reviews' },
-    { text: 'Newsletter Subscriptions', href: '/customer/account/newsletter' },
+    { text: 'My Product Reviews', href: '/customer/reviews' },
+    { text: 'Newsletter Subscriptions', href: '/customer/newsletter' },
     { separator: true },
-    { text: 'Sign Out', href: '/customer/logout' },
+    { text: 'Sign Out', href: '/customer/account/logout' },
   ]
 </script>
 

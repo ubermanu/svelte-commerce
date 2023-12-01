@@ -23,7 +23,7 @@
       <div class="box-actions">
         <a
           class="action edit"
-          href="/customer/account/address/edit/{data.billingAddress.id}"
+          href="/customer/address/edit/{data.billingAddress.id}"
         >
           <span>Change Billing Address</span>
         </a>
@@ -40,7 +40,7 @@
       <div class="box-actions">
         <a
           class="action edit"
-          href="/customer/account/address/edit/{data.shippingAddress.id}"
+          href="/customer/address/edit/{data.shippingAddress.id}"
         >
           <span>Change Shipping Address</span>
         </a>
@@ -61,7 +61,7 @@
 <ActionsToolbar>
   <a
     slot="primary"
-    href="/customer/account/address/new"
+    href="/customer/address/new"
     title="Add New Address"
     class="action primary add"
   >

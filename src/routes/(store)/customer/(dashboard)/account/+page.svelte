@@ -37,7 +37,7 @@
         <p>You aren't subscribed to our newsletter.</p>
       </div>
       <div class="box-actions">
-        <a class="action edit" href="/customer/account/newsletter">Edit</a>
+        <a class="action edit" href="/customer/newsletter">Edit</a>
       </div>
     </div>
   </div>
@@ -46,9 +46,7 @@
 <div class="block-dashboard-addresses block">
   <div class="block-title">
     <h2>Address Book</h2>
-    <a class="action edit" href="/customer/account/address">
-      Manage Addresses
-    </a>
+    <a class="action edit" href="/customer/address"> Manage Addresses </a>
   </div>
   <div class="block-content is-2columns">
     <div class="box box-billing-address">
@@ -66,14 +64,12 @@
         {#if data.billingAddress}
           <a
             class="action edit"
-            href="/customer/account/address/edit/{data.billingAddress.id}"
+            href="/customer/address/edit/{data.billingAddress.id}"
           >
             Edit Address
           </a>
         {:else}
-          <a class="action edit" href="/customer/account/address/new">
-            New Address
-          </a>
+          <a class="action edit" href="/customer/address/new">New Address</a>
         {/if}
       </div>
     </div>
@@ -92,14 +88,12 @@
         {#if data.shippingAddress}
           <a
             class="action edit"
-            href="/customer/account/address/edit/{data.shippingAddress.id}"
+            href="/customer/address/edit/{data.shippingAddress.id}"
           >
             Edit Address
           </a>
         {:else}
-          <a class="action edit" href="/customer/account/address/new">
-            New Address
-          </a>
+          <a class="action edit" href="/customer/address/new">New Address</a>
         {/if}
       </div>
     </div>
