@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { enhance } from '$app/forms'
   import Input from '$lib/components/Form/Input.svelte'
   import ActionsToolbar from '$lib/components/ActionsToolbar.svelte'
   import PageTitle from '$lib/components/PageTitle.svelte'
@@ -17,6 +18,7 @@
   class="form password forget max-w-xl space-y-6"
   action="?/resetPassword"
   method="post"
+  use:enhance
 >
   <Fieldset>
     <p>
