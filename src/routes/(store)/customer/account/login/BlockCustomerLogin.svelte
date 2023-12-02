@@ -1,4 +1,5 @@
 <script>
+  import { enhance } from '$app/forms'
   import ActionsToolbar from '$lib/components/ActionsToolbar.svelte'
   import Input from '$lib/components/Form/Input.svelte'
   import Checkbox from '$lib/components/Form/Checkbox.svelte'
@@ -16,6 +17,7 @@
       action="?/login"
       method="post"
       class="form form-login max-w-xl space-y-6"
+      use:enhance
     >
       <Fieldset>
         <Input
