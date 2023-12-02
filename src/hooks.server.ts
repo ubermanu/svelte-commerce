@@ -26,19 +26,19 @@ export const handle: Handle = async ({ event, resolve }) => {
   // TODO: Refresh the token if it's expired
 
   // Set the customer on the event locals
-  event.locals.customer = await getCustomer(session.data.customerToken)
+  event.locals.customer = await getCustomer(session.data.token)
   event.locals.loggedIn = !!event.locals.customer
 
   // If the user is not logged in, remove the token cookie
   if (!event.locals.loggedIn) {
-    delete session.data.customerToken
+    delete session.data.token
   }
 
   // Assign a cart to the user if it doesn't have one
   // TODO: Check if the cart is still valid
   if (!session.data.cartId) {
     session.data.cartId = event.locals.loggedIn
-      ? await createCustomerCart(session.data.customerToken)
+      ? await createCustomerCart(session.data.token)
       : await createGuestCart()
   }
 
