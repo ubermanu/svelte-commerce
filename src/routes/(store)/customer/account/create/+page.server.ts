@@ -1,9 +1,11 @@
 import { magentoFetch } from '$lib/server/magento'
 import type { Actions } from '@sveltejs/kit'
+import { redirect } from '@sveltejs/kit'
 import { gql } from 'graphql-request'
 
 export const actions: Actions = {
-  create: async ({ request, cookies }) => {
+  create: async ({ request, locals }) => {
+    const { messageManager } = locals
     const formData = await request.formData()
 
     try {
@@ -45,9 +47,9 @@ export const actions: Actions = {
       }
     }
 
-    return {
-      success: true,
-      message: 'Your account has been successfully created!',
-    }
+    messageManager.addSuccessMessage(
+      'Your account has been successfully created!'
+    )
+    throw redirect(302, '/customer/account')
   },
 }
