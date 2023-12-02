@@ -69,15 +69,17 @@ const initializeMessageManager: Handle = async ({ event, resolve }) => {
   return resolve(event)
 }
 
-const restrictAccessToCustomerAccount: Handle = async ({ event, resolve }) => {
+const nonRestrictedUrls = [
+  '/customer/account/create',
+  '/customer/account/login',
+  '/customer/account/forgot-password',
+]
+
+const restrictAccessToCustomerArea: Handle = async ({ event, resolve }) => {
   if (
     event.url.pathname.startsWith('/customer') &&
     !event.locals.loggedIn &&
-    ![
-      '/customer/account/create',
-      '/customer/account/login',
-      '/customer/account/forgot-password',
-    ].includes(event.url.pathname)
+    !nonRestrictedUrls.includes(event.url.pathname)
   ) {
     // Restrict access to the customer account pages if the user is not logged in
     throw redirect(302, '/customer/account/login')
@@ -98,7 +100,7 @@ const commitSession: Handle = async ({ event, resolve }) => {
 export const handle: Handle = sequence(
   initializeSession,
   initializeCustomer,
-  restrictAccessToCustomerAccount,
+  restrictAccessToCustomerArea,
   initializeCart,
   initializeStoreConfig,
   initializeMessageManager,
