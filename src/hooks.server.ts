@@ -3,10 +3,11 @@ import { getCustomer } from '$lib/server/customer'
 import { createMessageManager } from '$lib/server/messages'
 import { sessionManager } from '$lib/server/session'
 import { getStoreConfig } from '$lib/server/store'
-import type { Handle, RequestEvent } from '@sveltejs/kit'
+import type { Handle } from '@sveltejs/kit'
 import { redirect } from '@sveltejs/kit'
+import { sequence } from '@sveltejs/kit/hooks'
 
-export const handle: Handle = async ({ event, resolve }) => {
+const initializeSession: Handle = async ({ event, resolve }) => {
   let session = await sessionManager.getSession(event.cookies)
 
   // If the session is invalid, create a new one
@@ -23,51 +24,52 @@ export const handle: Handle = async ({ event, resolve }) => {
     session.data = {}
   }
 
-  // TODO: Refresh the token if it's expired
+  event.locals.session = session.data
 
-  // Set the customer on the event locals
-  event.locals.customer = await getCustomer(session.data.token)
+  return resolve(event)
+}
+
+const initializeCustomer: Handle = async ({ event, resolve }) => {
+  event.locals.customer = await getCustomer(event.locals.session.token!)
   event.locals.loggedIn = !!event.locals.customer
 
   // If the user is not logged in, remove the token cookie
   if (!event.locals.loggedIn) {
-    delete session.data.token
+    delete event.locals.session.token
   }
+
+  return resolve(event)
+}
+
+const initializeCart: Handle = async ({ event, resolve }) => {
+  const { session } = event.locals
 
   // Assign a cart to the user if it doesn't have one
   // TODO: Check if the cart is still valid
-  if (!session.data.cartId) {
-    session.data.cartId = event.locals.loggedIn
-      ? await createCustomerCart(session.data.token)
+  if (!session.cartId) {
+    session.cartId = event.locals.loggedIn
+      ? await createCustomerCart(session.token!)
       : await createGuestCart()
   }
 
   // Get the minicart content + store config
   // TODO: Get the cart content asynchronously
-  event.locals.cart = await getCart(session.data.cartId, session.data.token)
-  event.locals.storeConfig = await getStoreConfig()
+  event.locals.cart = await getCart(session.cartId, session.token)
 
-  // Assign the session data to the locals
-  event.locals.session = session.data
-
-  // Initialize the message manager
-  event.locals.messageManager = createMessageManager(event)
-
-  // If the customer tries to access the dashboard without being logged in, redirect to the login page
-  restrictAccessToCustomerAccount(event)
-
-  const response = await resolve(event)
-
-  // Commit the session to the database
-  // TODO: Only update the session if it has changed
-  if (!session.error) {
-    await sessionManager.updateSession(event.cookies, event.locals.session)
-  }
-
-  return response
+  return resolve(event)
 }
 
-function restrictAccessToCustomerAccount(event: RequestEvent): void {
+const initializeStoreConfig: Handle = async ({ event, resolve }) => {
+  event.locals.storeConfig = await getStoreConfig()
+  return resolve(event)
+}
+
+const initializeMessageManager: Handle = async ({ event, resolve }) => {
+  event.locals.messageManager = createMessageManager(event)
+  return resolve(event)
+}
+
+const restrictAccessToCustomerAccount: Handle = async ({ event, resolve }) => {
   if (
     event.url.pathname.startsWith('/customer') &&
     !event.locals.loggedIn &&
@@ -77,6 +79,28 @@ function restrictAccessToCustomerAccount(event: RequestEvent): void {
       '/customer/account/forgot-password',
     ].includes(event.url.pathname)
   ) {
+    // Restrict access to the customer account pages if the user is not logged in
     throw redirect(302, '/customer/account/login')
   }
+
+  return resolve(event)
 }
+
+const commitSession: Handle = async ({ event, resolve }) => {
+  const response = await resolve(event)
+
+  // Commit the session to the database
+  await sessionManager.updateSession(event.cookies, event.locals.session)
+
+  return response
+}
+
+export const handle: Handle = sequence(
+  initializeSession,
+  initializeCustomer,
+  restrictAccessToCustomerAccount,
+  initializeCart,
+  initializeStoreConfig,
+  initializeMessageManager,
+  commitSession
+)
