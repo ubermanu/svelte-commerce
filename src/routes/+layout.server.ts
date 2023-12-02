@@ -18,5 +18,6 @@ export const load: ServerLoad = async ({ locals }) => {
     },
     customer: locals.customer,
     cart: locals.cart,
+    messages: locals.messageManager.consumeMessages(),
   }
 }

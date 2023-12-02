@@ -2,12 +2,14 @@
   import PageHeader from '$lib/components/PageHeader.svelte'
   import PageFooter from '$lib/components/PageFooter.svelte'
   import FormMessages from '$lib/components/FormMessages.svelte'
+  import SessionMessages from '$lib/components/SessionMessages.svelte'
 </script>
 
 <div class="page-wrapper">
   <PageHeader />
   <main class="page-main">
     <FormMessages />
+    <SessionMessages />
     <slot />
   </main>
   <PageFooter />

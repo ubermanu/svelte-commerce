@@ -1,5 +1,6 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
+import type { Message, MessageManager } from '$lib/server/messages'
 import { Writable } from 'svelte/store'
 
 declare global {
@@ -9,10 +10,12 @@ declare global {
       customer: {} | null
       loggedIn: boolean
       cart: {} | null
-      storeConfig: {}
+      storeConfig: {} | any
+      messageManager: MessageManager
       session: {
         token?: string
         cartId?: string
+        messages?: Message[]
       }
     }
     interface PageData {

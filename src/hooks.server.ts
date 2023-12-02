@@ -1,5 +1,6 @@
 import { createCustomerCart, createGuestCart, getCart } from '$lib/server/cart'
 import { getCustomer } from '$lib/server/customer'
+import { createMessageManager } from '$lib/server/messages'
 import { sessionManager } from '$lib/server/session'
 import { getStoreConfig } from '$lib/server/store'
 import type { Handle, RequestEvent } from '@sveltejs/kit'
@@ -49,10 +50,13 @@ export const handle: Handle = async ({ event, resolve }) => {
   // Assign the session data to the locals
   event.locals.session = session.data
 
+  // Initialize the message manager
+  event.locals.messageManager = createMessageManager(event)
+
   // If the customer tries to access the dashboard without being logged in, redirect to the login page
   restrictAccessToCustomerAccount(event)
 
-  const response = resolve(event)
+  const response = await resolve(event)
 
   // Commit the session to the database
   // TODO: Only update the session if it has changed
