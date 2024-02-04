@@ -1,10 +1,6 @@
 <script lang="ts">
   import Select from '$lib/components/Form/Select.svelte'
-
-  interface Country {
-    id: number
-    full_name_locale: string
-  }
+  import type { Country } from '$lib/generated/graphql'
 
   export let countries: Partial<Country>[]
 </script>

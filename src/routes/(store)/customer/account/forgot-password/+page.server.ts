@@ -1,20 +1,22 @@
-import { magentoFetch } from '$lib/server/magento'
+import { sdk } from '$lib/server/magento'
 import type { Actions } from '@sveltejs/kit'
-import { gql } from 'graphql-request'
-import { tryit } from 'radash'
 
 export const actions: Actions = {
   resetPassword: async ({ request }) => {
     const formData = await request.formData()
+    const email = formData.get('email')
 
-    const [err] = await tryit(requestResetPassword)(
-      formData.get('email') as string
-    )
-
-    if (err) {
-      // TODO: Log this server side
-      console.error(err)
+    if (!email) {
+      return {
+        errors: ['Please provide an email address.'],
+      }
     }
+
+    try {
+      await sdk.requestPasswordResetEmail({
+        email: email.toString(),
+      })
+    } catch (error: any) {}
 
     return {
       success: true,
@@ -22,23 +24,4 @@ export const actions: Actions = {
         'If the email address you entered is associated with an account, you will receive an email with a link to reset your password.',
     }
   },
-}
-
-async function requestResetPassword(email: string): Promise<boolean> {
-  try {
-    const { requestPasswordResetEmail } = await magentoFetch({
-      query: gql`
-        mutation requestPasswordResetEmail($email: String!) {
-          requestPasswordResetEmail(email: $email)
-        }
-      `,
-      variables: {
-        email,
-      },
-    })
-
-    return requestPasswordResetEmail
-  } catch (error: any) {
-    throw Error(error?.response.errors[0].message)
-  }
 }

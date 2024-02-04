@@ -20,7 +20,7 @@
   {#await data.streamed.products}
     <p>Loading products</p>
   {:then products}
-    {#if products.total_count > 0}
+    {#if products.total_count && products.total_count > 0}
       <Toolbar totalCount={+products.total_count}>
         <Amount />
         <Sorter />

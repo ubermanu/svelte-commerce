@@ -1,0 +1,6 @@
+query getCmsPage($slug: String!) {
+  cmsPage(identifier: $slug) {
+    title
+    content
+  }
+}

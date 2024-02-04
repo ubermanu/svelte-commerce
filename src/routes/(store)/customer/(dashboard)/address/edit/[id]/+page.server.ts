@@ -1,4 +1,4 @@
-import type { CustomerAddress } from '$lib/generated/graphql.types'
+import type { CustomerAddress } from '$lib/generated/graphql'
 import type { Actions, ServerLoad } from '@sveltejs/kit'
 
 export const load: ServerLoad = async ({ params }) => {

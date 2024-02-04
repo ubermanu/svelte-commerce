@@ -1,4 +1,4 @@
-import { addProductToCart } from '$lib/server/cart'
+import { sdk } from '$lib/server/magento'
 import type { Actions } from '@sveltejs/kit'
 import { redirect } from '@sveltejs/kit'
 
@@ -17,24 +17,30 @@ export const actions: Actions = {
     const selectedOptions = Array.from(superAttributes.values())
 
     try {
-      await addProductToCart(
-        cart.id,
-        { sku, quantity, selectedOptions },
-        customerToken
+      await sdk.addProductToCart(
+        {
+          cartId: cart.id,
+          cartItem: {
+            sku,
+            quantity,
+            selected_options: selectedOptions,
+          },
+        },
+        {
+          Authorization: `Bearer ${customerToken}`,
+        }
       )
     } catch (error: any) {
-      // TODO: Get the error message from the error object
+      return {
+        errors: error.response.errors.map((error: Error) => error.message),
+      }
     }
 
     throw redirect(302, returnUrl ?? '/')
   },
 }
 
-/**
- * Extracts the super attributes from the form data.
- *
- * @param formData
- */
+/** Extracts the super attributes from the form data. */
 function extractSuperAttributes(formData: FormData) {
   const superAttributes = new Map<string, string>()
 

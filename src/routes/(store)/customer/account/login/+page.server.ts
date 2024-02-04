@@ -1,8 +1,6 @@
-import { magentoFetch } from '$lib/server/magento'
+import { sdk } from '$lib/server/magento'
 import type { Actions } from '@sveltejs/kit'
 import { redirect } from '@sveltejs/kit'
-import { gql } from 'graphql-request'
-import { tryit } from 'radash'
 
 export const actions: Actions = {
   login: async ({ request, locals, cookies }) => {
@@ -11,15 +9,26 @@ export const actions: Actions = {
     }
 
     const formData = await request.formData()
+    const email = formData.get('email')
+    const password = formData.get('password')
 
-    const [err, token] = await tryit(getCustomerToken)(
-      formData.get('email') as string,
-      formData.get('password') as string
-    )
-
-    if (err) {
+    if (!email || !password) {
       return {
-        errors: [err.message],
+        errors: ['Please fill in all required fields.'],
+      }
+    }
+
+    let token: string
+
+    try {
+      const { customer } = await sdk.generateCustomerToken({
+        email: email.toString(),
+        password: password.toString(),
+      })
+      token = customer!.token!
+    } catch (error: any) {
+      return {
+        errors: error?.response.errors.map((e: Error) => e.message),
       }
     }
 
@@ -29,29 +38,4 @@ export const actions: Actions = {
     // messageManager.addSuccessMessage('You are now logged in.')
     throw redirect(302, '/customer/account')
   },
-}
-
-async function getCustomerToken(
-  email: string,
-  password: string
-): Promise<string> {
-  try {
-    const { customer } = await magentoFetch({
-      query: gql`
-        mutation generateCustomerToken($email: String!, $password: String!) {
-          customer: generateCustomerToken(email: $email, password: $password) {
-            token
-          }
-        }
-      `,
-      variables: {
-        email,
-        password,
-      },
-    })
-
-    return customer.token
-  } catch (error: any) {
-    throw Error(error?.response.errors[0].message)
-  }
 }

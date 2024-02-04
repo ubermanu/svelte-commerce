@@ -1,0 +1,71 @@
+query createCustomerCart {
+  customerCart {
+    id
+  }
+}
+
+mutation createGuestCart {
+  id: createEmptyCart
+}
+
+query getCart($cartId: String!) {
+  cart(cart_id: $cartId) {
+    id
+    items {
+      id
+      quantity
+      product {
+        id
+        name
+        sku
+        price_range {
+          minimum_price {
+            regular_price {
+              value
+              currency
+            }
+          }
+        }
+        image {
+          url
+        }
+        url_key
+      }
+    }
+    prices {
+      discounts {
+        amount {
+          currency
+          value
+        }
+        label
+      }
+      grand_total {
+        currency
+        value
+      }
+      subtotal_excluding_tax {
+        currency
+        value
+      }
+      subtotal_including_tax {
+        currency
+        value
+      }
+    }
+  }
+}
+
+mutation addProductToCart($cartId: String!, $cartItem: CartItemInput!) {
+  addProductsToCart(cartId: $cartId, cartItems: [$cartItem]) {
+    cart {
+      items {
+        id
+        product {
+          sku
+        }
+        quantity
+      }
+    }
+  }
+}

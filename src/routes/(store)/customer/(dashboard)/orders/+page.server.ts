@@ -1,8 +1,15 @@
-import { getCustomerOrders } from '$lib/server/customer'
+import { sdk } from '$lib/server/magento'
 import type { ServerLoad } from '@sveltejs/kit'
 
 export const load: ServerLoad = async ({ locals }) => {
+  const { customer } = await sdk.getCustomerOrders(
+    {},
+    {
+      Authorization: `Bearer ${locals.customerToken}`,
+    }
+  )
+
   return {
-    orders: await getCustomerOrders(locals.customerToken!),
+    orders: customer?.orders?.items ?? [],
   }
 }

@@ -1,44 +1,28 @@
-import { magentoFetch } from '$lib/server/magento'
+import { sdk } from '$lib/server/magento'
 import type { Actions } from '@sveltejs/kit'
 import { redirect } from '@sveltejs/kit'
-import { gql } from 'graphql-request'
 
 export const actions: Actions = {
   create: async ({ request, locals }) => {
     const formData = await request.formData()
 
+    const firstname = formData.get('firstname')
+    const lastname = formData.get('lastname')
+    const email = formData.get('email')
+    const password = formData.get('password')
+
+    if (!firstname || !lastname || !email || !password) {
+      return {
+        errors: ['Please fill in all required fields.'],
+      }
+    }
+
     try {
-      await magentoFetch({
-        query: gql`
-          mutation createCustomer(
-            $firstname: String!
-            $lastname: String!
-            $email: String!
-            $password: String!
-          ) {
-            createCustomer(
-              input: {
-                firstname: $firstname
-                lastname: $lastname
-                email: $email
-                password: $password
-              }
-            ) {
-              customer {
-                firstname
-                lastname
-                email
-                is_subscribed
-              }
-            }
-          }
-        `,
-        variables: {
-          firstname: formData.get('firstname'),
-          lastname: formData.get('lastname'),
-          email: formData.get('email'),
-          password: formData.get('password'),
-        },
+      await sdk.createCustomer({
+        firstname: firstname.toString(),
+        lastname: lastname.toString(),
+        email: email.toString(),
+        password: password.toString(),
       })
     } catch (error: any) {
       return {

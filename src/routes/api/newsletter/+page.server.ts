@@ -1,6 +1,5 @@
-import { magentoFetch } from '$lib/server/magento'
+import { sdk } from '$lib/server/magento'
 import type { Actions } from '@sveltejs/kit'
-import { gql } from 'graphql-request'
 
 export const actions: Actions = {
   /** Subscribe to the newsletter. */
@@ -15,18 +14,12 @@ export const actions: Actions = {
     }
 
     try {
-      await magentoFetch({
-        query: gql`
-          mutation {
-            subscribeEmailToNewsletter(email: "${email}") {
-              status
-            }
-          }
-        `,
+      await sdk.subscribeToNewsletter({
+        email: email.toString(),
       })
     } catch (error: any) {
       return {
-        errors: [error.message],
+        errors: error?.response.errors.map((e: Error) => e.message),
       }
     }
 

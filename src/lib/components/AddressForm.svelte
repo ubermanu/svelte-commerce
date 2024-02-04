@@ -3,9 +3,10 @@
   import Fieldset from '$lib/components/Form/Fieldset.svelte'
   import Country from '$lib/components/Form/Country.svelte'
   import Input from '$lib/components/Form/Input.svelte'
+  import type { Country as CountryItem } from '$lib/generated/graphql'
 
   export let action: string
-  export let data: { countries: any[] }
+  export let data: { countries: CountryItem[] }
 
   // TODO: Prefill form with data from address
   // export let values: Record<string, any> = {}

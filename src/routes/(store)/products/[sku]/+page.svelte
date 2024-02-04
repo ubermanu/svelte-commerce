@@ -12,7 +12,10 @@
   export let data
 
   // TODO: Add category to breadcrumbs
-  const breadcrumbs = [{ text: 'Home', href: '/' }, { text: data.product.name }]
+  const breadcrumbs = [
+    { text: 'Home', href: '/' },
+    { text: data.product.name! },
+  ]
 
   let quantity: number = 1
 
@@ -31,7 +34,7 @@
 
 <section class="section max-md:space-y-4 md:grid md:grid-cols-2 md:gap-8">
   <div class="product photo mx-auto max-w-md">
-    <img class="image w-full" src={data.product.image.url} alt="" />
+    <img class="image w-full" src={data.product.image?.url} alt="" />
   </div>
 
   <div class="product details space-y-4">
@@ -101,42 +104,50 @@
   </div>
 </section>
 
-<section class="section">
-  <h3 class="section-title">Details</h3>
-  <p class="product description prose prose-neutral dark:prose-invert">
-    {@html data.product.description.html}
-  </p>
-</section>
+{#if data.product.description}
+  <section class="section">
+    <h3 class="section-title">Details</h3>
+    <p class="product description prose prose-neutral dark:prose-invert">
+      {@html data.product.description.html}
+    </p>
+  </section>
+{/if}
 
-<section class="section">
-  <h3 class="section-title">
-    Reviews
+{#if data.product.review_count > 0}
+  <section class="section">
+    <h3 class="section-title">
+      Reviews
+      {#if data.product.review_count > 0}
+        <span class="count">({data.product.review_count})</span>
+      {/if}
+    </h3>
     {#if data.product.review_count > 0}
-      <span class="count">({data.product.review_count})</span>
+      <ul
+        class="reviews-list max-md:space-y-4 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-4"
+      >
+        {#each data.product.reviews.items as review}
+          {#if review}
+            <li class="review">
+              <div
+                class="mb-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm"
+              >
+                <Rating value={review.average_rating} />
+                <time datetime={review.created_at}>
+                  {formatDate(review.created_at)}
+                </time>
+                <strong>{review.nickname}</strong>
+              </div>
+              <p class="mb-2 font-semibold">{review.summary}</p>
+              <div class="prose prose-sm prose-neutral dark:prose-invert">
+                <p>{review.text}</p>
+              </div>
+            </li>
+          {/if}
+        {/each}
+      </ul>
     {/if}
-  </h3>
-  {#if data.product.review_count > 0}
-    <ul
-      class="reviews-list max-md:space-y-4 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-4"
-    >
-      {#each data.product.reviews.items as review}
-        <li class="review">
-          <div class="mb-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
-            <Rating value={review.average_rating} />
-            <time datetime={review.created_at}>
-              {formatDate(review.created_at)}
-            </time>
-            <strong>{review.nickname}</strong>
-          </div>
-          <p class="mb-2 font-semibold">{review.summary}</p>
-          <div class="prose prose-sm prose-neutral dark:prose-invert">
-            <p>{review.text}</p>
-          </div>
-        </li>
-      {/each}
-    </ul>
-  {/if}
-</section>
+  </section>
+{/if}
 
 <style lang="postcss">
   .section {

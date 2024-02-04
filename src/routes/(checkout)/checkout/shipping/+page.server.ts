@@ -1,4 +1,4 @@
-import * as checkout from '$lib/server/checkout'
+import { sdk } from '$lib/server/magento'
 import type { Actions, ServerLoad } from '@sveltejs/kit'
 
 export const load: ServerLoad = async ({ locals, depends }) => {
@@ -6,23 +6,40 @@ export const load: ServerLoad = async ({ locals, depends }) => {
 
   const { cart, customerToken } = locals
 
+  async function getAvailableShippingMethods() {
+    const { cart: result } = await sdk.getAvailableShippingMethods(
+      {
+        cartId: cart.id,
+      },
+      {
+        Authorization: `Bearer ${customerToken}`,
+      }
+    )
+
+    // TODO: Get the shipping methods for the current address
+    // TODO: Filter out the unavailable shipping methods
+    // TODO: Add a selected property to the shipping methods
+    return result!.shipping_addresses[0]?.available_shipping_methods ?? []
+  }
+
+  async function getShippingAddresses() {
+    const { cart: result } = await sdk.getCartShippingAddresses(
+      { cartId: cart.id },
+      {
+        Authorization: `Bearer ${customerToken}`,
+      }
+    )
+    return result!.shipping_addresses
+  }
+
   return {
-    shippingAddresses: await checkout.getShippingAddresses(
-      cart.id,
-      customerToken
-    ),
-    shippingMethods: await checkout.getShippingMethods(cart.id, customerToken),
+    shippingAddresses: await getShippingAddresses(),
+    shippingMethods: await getAvailableShippingMethods(),
   }
 }
 
 export const actions: Actions = {
-  /**
-   * Set the shipping address on the cart.
-   *
-   * @param request
-   * @param locals
-   * @param cookies
-   */
+  /** Set the shipping address on the cart. */
   setShippingAddress: async ({ request, locals }) => {
     const { cart, customerToken } = locals
 
@@ -35,7 +52,15 @@ export const actions: Actions = {
       // TODO: Validate email address
 
       try {
-        await checkout.setGuestEmailOnCart(cart.id, email)
+        await sdk.setGuestEmailOnCart(
+          {
+            cartId: cart.id,
+            email,
+          },
+          {
+            Authorization: `Bearer ${customerToken}`,
+          }
+        )
       } catch (err) {
         return {
           errors: ["Couldn't set guest email"],
@@ -56,7 +81,15 @@ export const actions: Actions = {
     // TODO: Validate address
 
     try {
-      await checkout.setShippingAddressOnCart(cart.id, address, customerToken)
+      await sdk.setShippingAddressOnCart(
+        {
+          cartId: cart.id,
+          address: { address },
+        },
+        {
+          Authorization: `Bearer ${customerToken}`,
+        }
+      )
     } catch (err) {
       return {
         errors: ["Couldn't set shipping address"],
@@ -69,14 +102,8 @@ export const actions: Actions = {
     }
   },
 
-  /**
-   * Set the shipping method on the cart.
-   *
-   * @param request
-   * @param locals
-   * @param cookies
-   */
-  setShippingMethod: async ({ request, locals, cookies }) => {
+  /** Set the shipping method on the cart. */
+  setShippingMethod: async ({ request, locals }) => {
     const { cart, customerToken } = locals
 
     const formData = await request.formData()
@@ -84,15 +111,19 @@ export const actions: Actions = {
     const codes = code.split('_')
 
     const shippingMethod = {
-      carrierCode: codes[0],
-      methodCode: codes[1],
+      carrier_code: codes[0],
+      method_code: codes[1],
     }
 
     try {
-      await checkout.setShippingMethodOnCart(
-        cart.id,
-        shippingMethod,
-        customerToken
+      await sdk.setShippingMethodsOnCart(
+        {
+          cartId: cart.id,
+          shippingMethods: [shippingMethod],
+        },
+        {
+          Authorization: `Bearer ${customerToken}`,
+        }
       )
     } catch (err) {
       return {

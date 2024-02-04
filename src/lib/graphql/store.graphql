@@ -1,0 +1,24 @@
+query getStoreConfig {
+  storeConfig {
+    cms_home_page
+    default_title
+    default_description
+    default_keywords
+    copyright
+    header_logo_src
+    logo_width
+    logo_height
+  }
+}
+
+query getCountries {
+  countries {
+    id
+    full_name_locale
+    available_regions {
+      id
+      name
+      code
+    }
+  }
+}

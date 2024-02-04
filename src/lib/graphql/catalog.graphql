@@ -1,0 +1,121 @@
+query getProducts($sku: String!) {
+  products(filter: { sku: { eq: $sku } }) {
+    items {
+      id
+      name
+      description {
+        html
+      }
+      sku
+      stock_status
+      only_x_left_in_stock
+      price_range {
+        minimum_price {
+          regular_price {
+            value
+            currency
+          }
+        }
+      }
+      image {
+        url
+      }
+      url_key
+      type_id
+
+      rating_summary
+      review_count
+      reviews {
+        items {
+          summary
+          average_rating
+          nickname
+          text
+          created_at
+        }
+      }
+
+      ... on ConfigurableProduct {
+        configurable_options {
+          attribute_code
+          attribute_id
+          label
+          position
+          values {
+            uid
+            label
+          }
+        }
+      }
+    }
+  }
+}
+
+query getCategories($urlKey: String!) {
+  categories(filters: { url_key: { eq: $urlKey } }) {
+    items {
+      id
+      name
+      url_key
+      description
+      image
+    }
+  }
+}
+
+query getCategoryProducts($id: Int!) {
+  category(id: $id) {
+    products {
+      items {
+        id
+        name
+        sku
+        price_range {
+          minimum_price {
+            regular_price {
+              value
+              currency
+            }
+          }
+        }
+        image {
+          url
+        }
+        url_key
+      }
+    }
+  }
+}
+
+query searchProducts(
+  $query: String!
+  $pageSize: Int!
+  $currentPage: Int!
+  $sort: ProductAttributeSortInput!
+) {
+  products(
+    search: $query
+    pageSize: $pageSize
+    currentPage: $currentPage
+    sort: $sort
+  ) {
+    total_count
+    items {
+      id
+      name
+      sku
+      price_range {
+        minimum_price {
+          regular_price {
+            value
+            currency
+          }
+        }
+      }
+      image {
+        url
+      }
+      url_key
+    }
+  }
+}

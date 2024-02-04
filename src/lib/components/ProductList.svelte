@@ -1,5 +1,7 @@
 <script lang="ts">
-  export let products: any[]
+  import type { ProductInterface } from '$lib/generated/graphql'
+
+  export let products: ProductInterface[] = []
 
   export let mode: 'grid' | 'list' = 'grid'
 </script>
@@ -12,7 +14,7 @@
   {#each products as product}
     <li class="product-item">
       <a href="/products/{product.sku}" tabindex="-1">
-        <img class="product-item-photo" src={product.image.url} alt="" />
+        <img class="product-item-photo" src={product.image?.url} alt="" />
       </a>
       <a href="/products/{product.sku}" class="product-item-link">
         <h3 class="product-item-name">{product.name}</h3>

@@ -70,6 +70,9 @@ devDependencies:
   graphql:
     specifier: ^16.8.1
     version: 16.8.1
+  graphql-tag:
+    specifier: ^2.12.6
+    version: 2.12.6(graphql@16.8.1)
   postcss:
     specifier: ^8.4.33
     version: 8.4.33

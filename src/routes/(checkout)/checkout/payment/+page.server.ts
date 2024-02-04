@@ -1,4 +1,4 @@
-import * as checkout from '$lib/server/checkout'
+import { sdk } from '$lib/server/magento'
 import type { Actions, ServerLoad } from '@sveltejs/kit'
 import { redirect } from '@sveltejs/kit'
 
@@ -7,9 +7,32 @@ export const load: ServerLoad = async ({ locals, depends }) => {
 
   const { cart, customerToken } = locals
 
+  async function getBillingAddress() {
+    const { cart: result } = await sdk.getCartBillingAddress(
+      { cartId: cart.id },
+      {
+        Authorization: `Bearer ${customerToken}`,
+      }
+    )
+    return result?.billing_address
+  }
+
+  async function getPaymentMethods() {
+    const { cart: result } = await sdk.getAvailablePaymentMethods(
+      {
+        cartId: cart.id,
+      },
+      {
+        Authorization: `Bearer ${customerToken}`,
+      }
+    )
+
+    return result!.available_payment_methods
+  }
+
   return {
-    billingAddress: await checkout.getBillingAddress(cart.id, customerToken),
-    paymentMethods: await checkout.getPaymentMethods(cart.id, customerToken),
+    billingAddress: await getBillingAddress(),
+    paymentMethods: await getPaymentMethods(),
   }
 }
 
@@ -33,7 +56,15 @@ export const actions: Actions = {
     // TODO: Validate address
 
     try {
-      await checkout.setBillingAddressOnCart(cart.id, address, customerToken)
+      await sdk.setBillingAddressOnCart(
+        {
+          cartId: cart.id,
+          address: { address },
+        },
+        {
+          Authorization: `Bearer ${customerToken}`,
+        }
+      )
     } catch (err) {
       return {
         errors: ["Couldn't set billing address"],
@@ -56,10 +87,16 @@ export const actions: Actions = {
     // TODO: Validate payment method
 
     try {
-      await checkout.setPaymentMethodOnCart(
-        cart.id,
-        paymentMethod,
-        customerToken
+      await sdk.setPaymentMethodOnCart(
+        {
+          cartId: cart.id,
+          paymentMethod: {
+            code: paymentMethod,
+          },
+        },
+        {
+          Authorization: `Bearer ${customerToken}`,
+        }
       )
     } catch (err) {
       return {
@@ -83,9 +120,16 @@ export const actions: Actions = {
     const { cart, customerToken } = locals
 
     try {
-      const order = await checkout.placeOrder(cart.id, customerToken)
+      const { placeOrder } = await sdk.placeOrder(
+        {
+          cartId: cart.id,
+        },
+        {
+          Authorization: `Bearer ${customerToken}`,
+        }
+      )
 
-      cookies.set('last_order_number', order.order_number, {
+      cookies.set('last_order_number', placeOrder!.order.order_number, {
         path: '/',
         maxAge: 60 * 5, // 5 minutes
       })

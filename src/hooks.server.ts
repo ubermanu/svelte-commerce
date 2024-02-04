@@ -1,18 +1,23 @@
-import { createCustomerCart, createGuestCart, getCart } from '$lib/server/cart'
-import { getCustomer } from '$lib/server/customer'
-import { getStoreConfig } from '$lib/server/store'
-import type { Handle } from '@sveltejs/kit'
-import { redirect } from '@sveltejs/kit'
+import { sdk } from '$lib/server/magento'
+import { redirect, type Handle } from '@sveltejs/kit'
 import { sequence } from '@sveltejs/kit/hooks'
 
 const initializeCustomer: Handle = async ({ event, resolve }) => {
   const { locals, cookies } = event
 
   const customerToken = cookies.get('customer_token')
-
-  locals.customer = await getCustomer(customerToken!)
-  locals.loggedIn = locals.customer !== null
   locals.customerToken = customerToken
+
+  // Fetch the customer data if the user is logged in
+  try {
+    const { customer: customerData } = await sdk.getCustomer(
+      {},
+      { Authorization: `Bearer ${customerToken}` }
+    )
+    locals.customer = customerData
+  } catch (error: any) {}
+
+  locals.loggedIn = 'customer' in locals
 
   // If the user is not logged in, remove the token cookie
   if (!locals.loggedIn) {
@@ -31,22 +36,37 @@ const initializeCart: Handle = async ({ event, resolve }) => {
   // Assign a cart to the user if it doesn't have one
   // TODO: Check if the cart is still valid
   if (!cartId) {
-    cartId = locals.loggedIn
-      ? await createCustomerCart(locals.customerToken!)
-      : await createGuestCart()
+    if (locals.loggedIn) {
+      const { customerCart } = await sdk.createCustomerCart(
+        {},
+        {
+          Authorization: `Bearer ${locals.customerToken}`,
+        }
+      )
+      cartId = customerCart.id
+    } else {
+      const { id } = await sdk.createGuestCart()
+      cartId = id!
+    }
 
     cookies.set('cart_id', cartId, { path: '/' })
   }
 
-  // Get the minicart content + store config
   // TODO: Get the cart content asynchronously
-  locals.cart = await getCart(cartId, locals.customerToken)
+  const { cart } = await sdk.getCart(
+    { cartId },
+    { Authorization: `Bearer ${locals.customerToken}` }
+  )
+
+  locals.cart = cart
 
   return resolve(event)
 }
 
 const initializeStoreConfig: Handle = async ({ event, resolve }) => {
-  event.locals.storeConfig = await getStoreConfig()
+  const { locals } = event
+  const { storeConfig } = await sdk.getStoreConfig()
+  locals.storeConfig = storeConfig
   return resolve(event)
 }
 

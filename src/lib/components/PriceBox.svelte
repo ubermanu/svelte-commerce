@@ -1,16 +1,8 @@
 <script lang="ts">
   import { formatPrice } from '$lib/helpers/price'
+  import type { PriceRange } from '$lib/generated/graphql'
 
-  interface PriceRange {
-    minimum_price: {
-      regular_price: {
-        currency: string
-        value: number
-      }
-    }
-  }
-
-  export let priceRange: Partial<PriceRange>
+  export let priceRange: PriceRange
 
   export let quantity: number = 1
 
@@ -19,7 +11,7 @@
   const { class: additionalClasses = '', ...restProps } = $$restProps
 </script>
 
-{#if priceRange && priceRange.minimum_price}
+{#if priceRange && priceRange.minimum_price.regular_price.value}
   <div class="price-box font-semibold {additionalClasses}" {...restProps}>
     <span
       class="price"

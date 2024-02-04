@@ -7,6 +7,14 @@ const config: CodegenConfig = {
   documents: ['src/**/*.graphql'],
   generates: {
     'src/lib/generated/graphql.ts': {
+      config: {
+        avoidOptionals: {
+          field: true,
+          object: false,
+          inputValue: false,
+          defaultValue: false,
+        },
+      },
       plugins: [
         'typescript',
         'typescript-operations',

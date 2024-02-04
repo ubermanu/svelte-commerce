@@ -1,0 +1,178 @@
+query getCustomer {
+  customer {
+    firstname
+    lastname
+    email
+    allow_remote_shopping_assistance
+  }
+}
+
+query getCart($cartId: String!) {
+  cart(cart_id: $cartId) {
+    id
+    items {
+      id
+      quantity
+      product {
+        id
+        name
+        sku
+        price_range {
+          minimum_price {
+            regular_price {
+              value
+              currency
+            }
+          }
+        }
+        image {
+          url
+        }
+        url_key
+      }
+    }
+    prices {
+      discounts {
+        amount {
+          currency
+          value
+        }
+        label
+      }
+      grand_total {
+        currency
+        value
+      }
+      subtotal_excluding_tax {
+        currency
+        value
+      }
+      subtotal_including_tax {
+        currency
+        value
+      }
+    }
+  }
+}
+
+mutation revokeCustomerToken {
+  revokeCustomerToken {
+    result
+  }
+}
+
+mutation generateCustomerToken($email: String!, $password: String!) {
+  customer: generateCustomerToken(email: $email, password: $password) {
+    token
+  }
+}
+
+mutation requestPasswordResetEmail($email: String!) {
+  result: requestPasswordResetEmail(email: $email)
+}
+
+mutation createCustomer(
+  $firstname: String!
+  $lastname: String!
+  $email: String!
+  $password: String!
+) {
+  createCustomer(
+    input: {
+      firstname: $firstname
+      lastname: $lastname
+      email: $email
+      password: $password
+    }
+  ) {
+    customer {
+      firstname
+      lastname
+      email
+      is_subscribed
+    }
+  }
+}
+
+query getCustomerAddresses {
+  customer {
+    addresses {
+      id
+      firstname
+      lastname
+      street
+      company
+      city
+      postcode
+      country_code
+      telephone
+      default_shipping
+      default_billing
+    }
+  }
+}
+
+query getCustomerOrders {
+  customer {
+    orders {
+      items {
+        id
+        order_number
+        created_at
+        status
+        total {
+          grand_total {
+            currency
+            value
+          }
+        }
+      }
+    }
+  }
+}
+
+query isCustomerSubscribedToNewsletter {
+  customer {
+    is_subscribed
+  }
+}
+
+mutation setCustomerNewsletterSubscription($isSubscribed: Boolean!) {
+  updateCustomer(input: { is_subscribed: $isSubscribed }) {
+    customer {
+      is_subscribed
+    }
+  }
+}
+
+mutation updateCustomerInformation(
+  $firstname: String!
+  $lastname: String!
+  $email: String!
+  $currentPassword: String!
+  $newPassword: String!
+  $updateCustomerEmail: Boolean!
+  $updateCustomerPassword: Boolean!
+) {
+  updateCustomer(input: { firstname: $firstname, lastname: $lastname }) {
+    customer {
+      firstname
+      lastname
+    }
+  }
+
+  updateCustomerEmail(email: $email, password: $currentPassword)
+    @include(if: $updateCustomerEmail) {
+    customer {
+      email
+    }
+  }
+
+  changeCustomerPassword(
+    currentPassword: $currentPassword
+    newPassword: $newPassword
+  ) @include(if: $updateCustomerPassword) {
+    id
+    email
+  }
+}
