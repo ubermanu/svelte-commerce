@@ -12,7 +12,7 @@ set -e
 # Source the .env file (from parent directory)
 source .env
 
-rm ./schema.graphql
+rm -f ./schema.graphql
 
 echo "Downloading GraphQL schema from ${PRIVATE_MAGENTO_BASE_URL}..."
 npx get-graphql-schema ${PRIVATE_MAGENTO_BASE_URL}/graphql > ./schema.graphql
