@@ -15,6 +15,7 @@ const config: CodegenConfig = {
           defaultValue: false,
         },
         maybeValue: 'T',
+        useTypeImports: true,
       },
       plugins: [
         'typescript',
