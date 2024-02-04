@@ -22,7 +22,7 @@
         />
       </a>
       <a href="/products/{product.sku}" class="product-item-link">
-        <h3 class="product-item-name">{product.name}</h3>
+        <h3 class="product-item-name">{@html product.name}</h3>
       </a>
     </li>
   {/each}
