@@ -14,7 +14,7 @@
   async function goToPage(p: number) {
     const searchParams = new URLSearchParams($page.url.searchParams)
     searchParams.set('p', p.toString())
-    await invalidate('toolbar')
+    // await invalidate('toolbar')
     await goto('?' + searchParams.toString(), { replaceState: true })
   }
 </script>

@@ -12,7 +12,7 @@
     const searchParams = new URLSearchParams($page.url.searchParams)
     searchParams.set('p', '1')
     searchParams.set('limit', limit)
-    await invalidate('toolbar')
+    // await invalidate('toolbar')
     await goto('?' + searchParams.toString(), { replaceState: true })
   }
 </script>

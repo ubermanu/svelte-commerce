@@ -15,14 +15,14 @@
     const searchParams = new URLSearchParams($page.url.searchParams)
     searchParams.set('sort', order)
     searchParams.delete('d')
-    await invalidate('toolbar')
+    // await invalidate('toolbar')
     await goto('?' + searchParams.toString(), { replaceState: true })
   }
 
   async function toggleSortDirection() {
     const searchParams = new URLSearchParams($page.url.searchParams)
     searchParams.set('d', sortDirection === 'asc' ? 'desc' : 'asc')
-    await invalidate('toolbar')
+    // await invalidate('toolbar')
     await goto('?' + searchParams.toString(), { replaceState: true })
   }
 </script>
