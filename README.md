@@ -12,8 +12,8 @@ Svelte Commerce is a fully open source, headless, e-commerce platform built with
 
 ## GraphQL
 
-Retrieve the schema from your Magento 2 instance by running the following command:
+Retrieve the schema and types from your Magento 2 instance by running the following command:
 
 ```bash
-./scripts/get-graphql-schema.sh
+pnpm run codegen
 ```
