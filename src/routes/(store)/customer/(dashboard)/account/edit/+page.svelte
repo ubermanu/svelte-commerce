@@ -9,6 +9,8 @@
 
   export let data
 
+  const customer = data.customer!
+
   let changeEmail = $page.url.searchParams.has('changeEmail')
   let changePassword = $page.url.searchParams.has('changePass')
   let showPassword = false
@@ -42,14 +44,14 @@
       label="First Name"
       name="firstname"
       autocomplete="given-name"
-      value={data.customer.firstname}
+      value={customer.firstname}
       required
     />
     <Input
       label="Last Name"
       name="lastname"
       autocomplete="family-name"
-      value={data.customer.lastname}
+      value={customer.lastname}
       required
     />
     <Checkbox
@@ -65,7 +67,7 @@
     <Checkbox
       label="Allow remote shopping assistance"
       name="assistance_allowed"
-      checked={data.customer.allow_remote_shopping_assistance}
+      checked={customer.allow_remote_shopping_assistance}
       value="1"
     />
   </Fieldset>
@@ -77,7 +79,7 @@
           name="email"
           type="email"
           autocomplete="email"
-          value={data.customer.email}
+          value={customer.email}
           required
         />
       {/if}

@@ -6,7 +6,7 @@ import type { Actions, ServerLoad } from '@sveltejs/kit'
 
 export const load: ServerLoad = async ({ locals }) => {
   return {
-    isSubscribed: await isCustomerSubscribedToNewsletter(locals.customerToken!),
+    isSubscribed: await isCustomerSubscribedToNewsletter(locals.session.token!),
   }
 }
 
@@ -15,7 +15,7 @@ export const actions: Actions = {
     const formData = await request.formData()
     const isSubscribed = formData.get('is_subscribed') === '1'
 
-    await setCustomerNewsletterSubscription(locals.customerToken!, isSubscribed)
+    await setCustomerNewsletterSubscription(locals.session.token!, isSubscribed)
 
     return {
       success: true,

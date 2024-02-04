@@ -17,34 +17,46 @@
       <div class="box-title">
         <h3>Default Billing Address</h3>
       </div>
-      <div class="box-content">
-        <AddressData address={data.billingAddress} />
-      </div>
-      <div class="box-actions">
-        <a
-          class="action edit"
-          href="/customer/address/edit/{data.billingAddress.id}"
-        >
-          <span>Change Billing Address</span>
-        </a>
-      </div>
+      {#if data.billingAddress}
+        <div class="box-content">
+          <AddressData address={data.billingAddress} />
+        </div>
+        <div class="box-actions">
+          <a
+            class="action edit"
+            href="/customer/address/edit/{data.billingAddress.id}"
+          >
+            <span>Change Billing Address</span>
+          </a>
+        </div>
+      {:else}
+        <div class="box-content">
+          <p class="empty">You have not set a default billing address.</p>
+        </div>
+      {/if}
     </div>
 
     <div class="box box-address-shipping">
       <div class="box-title">
         <h3>Default Shipping Address</h3>
       </div>
-      <div class="box-content">
-        <AddressData address={data.shippingAddress} />
-      </div>
-      <div class="box-actions">
-        <a
-          class="action edit"
-          href="/customer/address/edit/{data.shippingAddress.id}"
-        >
-          <span>Change Shipping Address</span>
-        </a>
-      </div>
+      {#if data.shippingAddress}
+        <div class="box-content">
+          <AddressData address={data.shippingAddress} />
+        </div>
+        <div class="box-actions">
+          <a
+            class="action edit"
+            href="/customer/address/edit/{data.shippingAddress.id}"
+          >
+            <span>Change Shipping Address</span>
+          </a>
+        </div>
+      {:else}
+        <div class="box-content">
+          <p class="empty">You have not set a default shipping address.</p>
+        </div>
+      {/if}
     </div>
   </div>
 </div>

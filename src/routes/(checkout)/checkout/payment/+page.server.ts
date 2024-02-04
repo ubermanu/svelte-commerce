@@ -91,7 +91,7 @@ export const actions: Actions = {
     const { cartId, token } = locals.session
 
     try {
-      const { order } = await checkout.placeOrder(cartId!, token)
+      const order = await checkout.placeOrder(cartId!, token)
 
       cookies.set('last_order_number', order.order_number, {
         path: '/',

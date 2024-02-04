@@ -1,8 +1,10 @@
-<script>
+<script lang="ts">
   import PageTitle from '$lib/components/PageTitle.svelte'
   import AddressData from '$lib/components/AddressData.svelte'
 
   export let data
+
+  const customer = data.customer!
 </script>
 
 <PageTitle>My Account</PageTitle>
@@ -17,7 +19,7 @@
         <h3>Contact Information</h3>
       </div>
       <div class="box-content">
-        <p>{data.customer.firstname} {data.customer.lastname}</p>
+        <p>{customer.firstname} {customer.lastname}</p>
       </div>
       <div class="box-actions">
         <a class="action edit" href="/customer/account/edit">Edit</a>

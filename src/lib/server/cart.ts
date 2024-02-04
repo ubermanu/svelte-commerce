@@ -1,3 +1,4 @@
+import type { Cart } from '$lib/generated/graphql.types'
 import { magentoFetch } from '$lib/server/magento'
 import { gql } from 'graphql-request'
 
@@ -30,7 +31,7 @@ export async function createGuestCart(): Promise<string> {
   return cartId
 }
 
-export async function getCart(cartId: string, token?: string) {
+export async function getCart(cartId: string, token?: string): Promise<Cart> {
   const { cart } = await magentoFetch({
     query: gql`
       query getCart($cartId: String!) {
@@ -98,7 +99,7 @@ export async function addProductToCart(
   cartId: string,
   { sku, quantity, selectedOptions }: AddProductToCartPayload,
   token?: string
-) {
+): Promise<Cart> {
   const { addProductsToCart: cart } = await magentoFetch({
     query: gql`
       mutation AddProductToCart($cartId: String!, $cartItem: CartItemInput!) {

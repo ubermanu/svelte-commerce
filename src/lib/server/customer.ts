@@ -1,7 +1,12 @@
+import type {
+  Customer,
+  CustomerAddress,
+  CustomerOrders,
+} from '$lib/generated/graphql.types'
 import { magentoFetch } from '$lib/server/magento'
 import { gql } from 'graphql-request'
 
-export async function getCustomer(token: string): Promise<{} | null> {
+export async function getCustomer(token: string): Promise<Customer | null> {
   if (!token) {
     return null
   }
@@ -30,7 +35,9 @@ export async function getCustomer(token: string): Promise<{} | null> {
   }
 }
 
-export async function getCustomerAddresses(token: string) {
+export async function getCustomerAddresses(
+  token: string
+): Promise<CustomerAddress[] | null> {
   if (!token) {
     return null
   }
@@ -67,7 +74,9 @@ export async function getCustomerAddresses(token: string) {
   }
 }
 
-export async function getCustomerOrders(token: string) {
+export async function getCustomerOrders(
+  token: string
+): Promise<CustomerOrders | null> {
   if (!token) {
     return null
   }
@@ -179,7 +188,7 @@ export async function updateCustomerInformation(
     currentPassword,
     newPassword,
   }: CustomerUpdatePayload
-) {
+): Promise<void> {
   if (!token) {
     return
   }

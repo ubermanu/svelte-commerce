@@ -1,3 +1,11 @@
+import type {
+  AvailablePaymentMethod,
+  AvailableShippingMethod,
+  BillingCartAddress,
+  Cart,
+  Order,
+  ShippingCartAddress,
+} from '$lib/generated/graphql.types'
 import { magentoFetch } from '$lib/server/magento'
 import { gql } from 'graphql-request'
 
@@ -15,7 +23,7 @@ export async function setShippingAddressOnCart(
   cartId: string,
   address: ShippingAddress,
   token?: string
-) {
+): Promise<Cart> {
   const { setShippingAddressesOnCart } = await magentoFetch({
     query: gql`
       mutation SetShippingAddressesOnCart(
@@ -51,7 +59,10 @@ export async function setShippingAddressOnCart(
   return setShippingAddressesOnCart
 }
 
-export async function getShippingAddresses(cartId: string, token?: string) {
+export async function getShippingAddresses(
+  cartId: string,
+  token?: string
+): Promise<ShippingCartAddress[]> {
   const { cart } = await magentoFetch({
     query: gql`
       query getCart($cartId: String!) {
@@ -82,7 +93,10 @@ export async function getShippingAddresses(cartId: string, token?: string) {
   return cart.shipping_addresses
 }
 
-export async function getShippingMethods(cartId: string, token?: string) {
+export async function getShippingMethods(
+  cartId: string,
+  token?: string
+): Promise<AvailableShippingMethod[]> {
   const { cart } = await magentoFetch({
     query: gql`
       query getCart($cartId: String!) {
@@ -122,7 +136,7 @@ export async function setShippingMethodOnCart(
   cartId: string,
   shippingMethod: ShippingMethod,
   token?: string
-) {
+): Promise<Cart> {
   const { setShippingMethodsOnCart } = await magentoFetch({
     query: gql`
       mutation SetShippingMethodsOnCart(
@@ -164,7 +178,7 @@ export async function setBillingAddressOnCart(
   cartId: string,
   address: ShippingAddress,
   token?: string
-) {
+): Promise<Cart> {
   const { setBillingAddressOnCart } = await magentoFetch({
     query: gql`
       mutation SetBillingAddressOnCart(
@@ -200,7 +214,10 @@ export async function setBillingAddressOnCart(
   return setBillingAddressOnCart
 }
 
-export async function getBillingAddress(cartId: string, token?: string) {
+export async function getBillingAddress(
+  cartId: string,
+  token?: string
+): Promise<BillingCartAddress> {
   const { cart } = await magentoFetch({
     query: gql`
       query getCart($cartId: String!) {
@@ -227,7 +244,10 @@ export async function getBillingAddress(cartId: string, token?: string) {
   return cart.billing_address
 }
 
-export async function getPaymentMethods(cartId: string, token?: string) {
+export async function getPaymentMethods(
+  cartId: string,
+  token?: string
+): Promise<AvailablePaymentMethod[]> {
   const { cart } = await magentoFetch({
     query: gql`
       query getCart($cartId: String!) {
@@ -254,7 +274,7 @@ export async function setPaymentMethodOnCart(
   cartId: string,
   paymentMethod: string,
   token?: string
-) {
+): Promise<Cart> {
   const { setPaymentMethodOnCart } = await magentoFetch({
     query: gql`
       mutation SetPaymentMethodOnCart(
@@ -283,7 +303,10 @@ export async function setPaymentMethodOnCart(
   return setPaymentMethodOnCart
 }
 
-export async function placeOrder(cartId: string, token?: string) {
+export async function placeOrder(
+  cartId: string,
+  token?: string
+): Promise<Order> {
   const { placeOrder } = await magentoFetch({
     query: gql`
       mutation PlaceOrder($cartId: String!) {
@@ -299,10 +322,13 @@ export async function placeOrder(cartId: string, token?: string) {
     headers: token ? { Authorization: `Bearer ${token}` } : {},
   })
 
-  return placeOrder
+  return placeOrder.order
 }
 
-export async function setGuestEmailOnCart(cartId: string, email: string) {
+export async function setGuestEmailOnCart(
+  cartId: string,
+  email: string
+): Promise<Cart> {
   const { setGuestEmailOnCart } = await magentoFetch({
     query: gql`
       mutation SetGuestEmailOnCart($cartId: String!, $email: String!) {

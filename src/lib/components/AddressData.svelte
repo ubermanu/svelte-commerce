@@ -1,19 +1,10 @@
 <script lang="ts">
-  interface AddressData {
-    id: number
-    firstname: string
-    lastname: string
-    company: string
-    street: string[]
-    city: string
-    postcode: string
-    country_code: string
-    telephone: string
-    default_shipping: boolean
-    default_billing: boolean
-  }
+  import type {
+    CartAddressInterface,
+    CustomerAddress,
+  } from '$lib/generated/graphql.types'
 
-  export let address: Partial<AddressData>
+  export let address: CartAddressInterface | CustomerAddress
 </script>
 
 <address>
@@ -25,7 +16,12 @@
       {line}<br />
     {/each}
   {/if}
-  {address.city}, {address.postcode}<br />
-  {address.country_code}<br />
-  T: <a href="tel:{address.telephone}">{address.telephone}</a>
+  {#if 'country' in address}
+    {address.country.code}<br />
+  {:else if 'country_code' in address}
+    {address.country_code}<br />
+  {/if}
+  {#if address.telephone}
+    T: <a href="tel:{address.telephone}">{address.telephone}</a>
+  {/if}
 </address>

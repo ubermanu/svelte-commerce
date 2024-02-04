@@ -1,5 +1,4 @@
-// See https://kit.svelte.dev/docs/types#app
-// for information about these interfaces
+import type { Cart, Customer, StoreConfig } from '$lib/generated/graphql.types'
 import type { Message, MessageManager } from '$lib/server/messages'
 import { Writable } from 'svelte/store'
 
@@ -7,10 +6,10 @@ declare global {
   namespace App {
     // interface Error {}
     interface Locals {
-      customer: {} | null
+      customer: Customer | null
       loggedIn: boolean
-      cart: {} | null
-      storeConfig: {} | any
+      cart: Cart
+      storeConfig: StoreConfig
       messageManager: MessageManager
       session: {
         token?: string
