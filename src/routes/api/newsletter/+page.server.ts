@@ -1,21 +1,38 @@
+import { magentoFetch } from '$lib/server/magento'
 import type { Actions } from '@sveltejs/kit'
-import { redirect } from '@sveltejs/kit'
+import { gql } from 'graphql-request'
 
 export const actions: Actions = {
-  /**
-   * Subscribe to the newsletter.
-   *
-   * @param request
-   * @param locals
-   * @param cookies
-   */
-  subscribe: async ({ request, locals, cookies }) => {
+  /** Subscribe to the newsletter. */
+  subscribe: async ({ request }) => {
     const formData = await request.formData()
+    const email = formData.get('email')
 
-    const returnUrl = String(formData.get('return_url'))
+    if (!email) {
+      return {
+        errors: ['Please provide an email address.'],
+      }
+    }
 
-    // TODO: Subscribe to the newsletter
+    try {
+      await magentoFetch({
+        query: gql`
+          mutation {
+            subscribeEmailToNewsletter(email: "${email}") {
+              status
+            }
+          }
+        `,
+      })
+    } catch (error: any) {
+      return {
+        errors: [error.message],
+      }
+    }
 
-    throw redirect(302, returnUrl ?? '/')
+    return {
+      success: true,
+      message: 'You have been subscribed to the newsletter.',
+    }
   },
 }

@@ -1,5 +1,6 @@
 <script>
   import Input from '$lib/components/Form/Input.svelte'
+  import { enhance } from '$app/forms'
   import { page } from '$app/stores'
 
   const links = [
@@ -26,6 +27,7 @@
           class="form subscribe"
           action="/api/newsletter?/subscribe"
           method="post"
+          use:enhance
         >
           <Input
             label="Sign Up for Our Newsletter:"
