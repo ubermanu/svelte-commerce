@@ -5,7 +5,6 @@ import { gql } from 'graphql-request'
 
 export const actions: Actions = {
   create: async ({ request, locals }) => {
-    const { messageManager } = locals
     const formData = await request.formData()
 
     try {
@@ -47,9 +46,9 @@ export const actions: Actions = {
       }
     }
 
-    messageManager.addSuccessMessage(
-      'Your account has been successfully created!'
-    )
+    // messageManager.addSuccessMessage(
+    //   'Your account has been successfully created!'
+    // )
     throw redirect(302, '/customer/account')
   },
 }

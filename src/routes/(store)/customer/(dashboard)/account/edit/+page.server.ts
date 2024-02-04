@@ -15,7 +15,7 @@ export const actions: Actions = {
     }
 
     try {
-      await updateCustomerInformation(locals.session.token!, payload)
+      await updateCustomerInformation(locals.customerToken!, payload)
     } catch (err: any) {
       return {
         errors: [err.message],

@@ -3,10 +3,10 @@ import type { RequestHandler } from '@sveltejs/kit'
 import { redirect } from '@sveltejs/kit'
 import { gql } from 'graphql-request'
 
-export const GET: RequestHandler = async ({ locals }) => {
-  const { token } = locals.session
+export const GET: RequestHandler = async ({ locals, cookies }) => {
+  const { loggedIn, customerToken } = locals
 
-  if (!token) {
+  if (!loggedIn) {
     throw redirect(302, '/customer/account/login')
   }
 
@@ -20,13 +20,13 @@ export const GET: RequestHandler = async ({ locals }) => {
     `,
     variables: {},
     headers: {
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${customerToken}`,
     },
   })
 
   if (revokeCustomerToken?.result) {
-    delete locals.session.token
-    delete locals.session.cartId
+    cookies.delete('customer_token', { path: '/' })
+    cookies.delete('cart_id', { path: '/' })
     throw redirect(302, '/customer/account/logout/success')
   }
 

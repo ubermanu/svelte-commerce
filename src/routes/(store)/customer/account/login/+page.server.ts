@@ -5,8 +5,11 @@ import { gql } from 'graphql-request'
 import { tryit } from 'radash'
 
 export const actions: Actions = {
-  login: async ({ request, locals }) => {
-    const { session, messageManager } = locals
+  login: async ({ request, locals, cookies }) => {
+    if (locals.loggedIn) {
+      throw redirect(302, '/customer/account')
+    }
+
     const formData = await request.formData()
 
     const [err, token] = await tryit(getCustomerToken)(
@@ -20,10 +23,10 @@ export const actions: Actions = {
       }
     }
 
-    session.token = token
-    delete session.cartId
+    cookies.set('customer_token', token, { path: '/' })
+    cookies.delete('cart_id', { path: '/' })
 
-    messageManager.addSuccessMessage('You are now logged in.')
+    // messageManager.addSuccessMessage('You are now logged in.')
     throw redirect(302, '/customer/account')
   },
 }

@@ -1,18 +1,12 @@
-import * as cart from '$lib/server/cart'
+import { addProductToCart } from '$lib/server/cart'
 import type { Actions } from '@sveltejs/kit'
 import { redirect } from '@sveltejs/kit'
 
 export const actions: Actions = {
-  /**
-   * Add product to the active cart.
-   *
-   * @param request
-   * @param locals
-   * @param cookies
-   */
+  /** Add product to the active cart. */
   addProduct: async ({ request, locals }) => {
     const formData = await request.formData()
-    const { cartId, token } = locals.session
+    const { cart, customerToken } = locals
 
     const returnUrl = String(formData.get('return_url'))
     const sku = String(formData.get('sku'))
@@ -23,10 +17,10 @@ export const actions: Actions = {
     const selectedOptions = Array.from(superAttributes.values())
 
     try {
-      await cart.addProductToCart(
-        cartId!,
+      await addProductToCart(
+        cart.id,
         { sku, quantity, selectedOptions },
-        locals.loggedIn ? token : ''
+        customerToken
       )
     } catch (error: any) {
       // TODO: Get the error message from the error object

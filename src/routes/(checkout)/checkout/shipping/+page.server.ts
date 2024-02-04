@@ -4,11 +4,14 @@ import type { Actions, ServerLoad } from '@sveltejs/kit'
 export const load: ServerLoad = async ({ locals, depends }) => {
   depends('shipping_address', 'shipping_method')
 
-  const { cartId, token } = locals.session
+  const { cart, customerToken } = locals
 
   return {
-    shippingAddresses: await checkout.getShippingAddresses(cartId!, token),
-    shippingMethods: await checkout.getShippingMethods(cartId!, token),
+    shippingAddresses: await checkout.getShippingAddresses(
+      cart.id,
+      customerToken
+    ),
+    shippingMethods: await checkout.getShippingMethods(cart.id, customerToken),
   }
 }
 
@@ -21,9 +24,9 @@ export const actions: Actions = {
    * @param cookies
    */
   setShippingAddress: async ({ request, locals }) => {
-    const formData = await request.formData()
+    const { cart, customerToken } = locals
 
-    const { cartId, token } = locals.session
+    const formData = await request.formData()
 
     // Set guest email address if not logged in
     if (!locals.loggedIn) {
@@ -32,7 +35,7 @@ export const actions: Actions = {
       // TODO: Validate email address
 
       try {
-        await checkout.setGuestEmailOnCart(cartId!, email)
+        await checkout.setGuestEmailOnCart(cart.id, email)
       } catch (err) {
         return {
           errors: ["Couldn't set guest email"],
@@ -53,7 +56,7 @@ export const actions: Actions = {
     // TODO: Validate address
 
     try {
-      await checkout.setShippingAddressOnCart(cartId!, address, token)
+      await checkout.setShippingAddressOnCart(cart.id, address, customerToken)
     } catch (err) {
       return {
         errors: ["Couldn't set shipping address"],
@@ -74,11 +77,10 @@ export const actions: Actions = {
    * @param cookies
    */
   setShippingMethod: async ({ request, locals, cookies }) => {
+    const { cart, customerToken } = locals
+
     const formData = await request.formData()
-
     const code = formData.get('code') as string
-    const { cartId, token } = locals.session
-
     const codes = code.split('_')
 
     const shippingMethod = {
@@ -87,7 +89,11 @@ export const actions: Actions = {
     }
 
     try {
-      await checkout.setShippingMethodOnCart(cartId!, shippingMethod, token)
+      await checkout.setShippingMethodOnCart(
+        cart.id,
+        shippingMethod,
+        customerToken
+      )
     } catch (err) {
       return {
         errors: ["Couldn't set shipping method"],

@@ -1,21 +1,15 @@
 import type { Cart, Customer, StoreConfig } from '$lib/generated/graphql.types'
-import type { Message, MessageManager } from '$lib/server/messages'
 import { Writable } from 'svelte/store'
 
 declare global {
   namespace App {
     // interface Error {}
     interface Locals {
+      customerToken: string | undefined
       customer: Customer | null
       loggedIn: boolean
       cart: Cart
       storeConfig: StoreConfig
-      messageManager: MessageManager
-      session: {
-        token?: string
-        cartId?: string
-        messages?: Message[]
-      }
     }
     interface PageData {
       cmsPage?: any

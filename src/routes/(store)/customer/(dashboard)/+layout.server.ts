@@ -2,8 +2,7 @@ import { getCustomerAddresses } from '$lib/server/customer'
 import type { ServerLoad } from '@sveltejs/kit'
 
 export const load: ServerLoad = async ({ locals }) => {
-  const { token } = locals.session
-  const addresses = await getCustomerAddresses(token!)
+  const addresses = await getCustomerAddresses(locals.customerToken!)
 
   return {
     addresses,
