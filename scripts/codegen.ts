@@ -14,12 +14,16 @@ const config: CodegenConfig = {
           inputValue: false,
           defaultValue: false,
         },
+        maybeValue: 'T',
       },
       plugins: [
         'typescript',
         'typescript-operations',
         'typescript-graphql-request',
       ],
+    },
+    'src/lib/generated/schema.graphql': {
+      plugins: ['schema-ast'],
     },
   },
 }
