@@ -2,7 +2,7 @@
   import type {
     CartAddressInterface,
     CustomerAddress,
-  } from '$lib/generated/graphql.types'
+  } from '$lib/generated/graphql'
 
   export let address: CartAddressInterface | CustomerAddress
 </script>
