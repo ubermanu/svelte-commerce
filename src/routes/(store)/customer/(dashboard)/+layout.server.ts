@@ -9,11 +9,11 @@ export const load: ServerLoad = async ({ locals }) => {
     }
   )
 
-  const { addresses } = customer!
+  const { addresses } = customer
 
   return {
     addresses,
-    shippingAddress: addresses?.find((addr) => addr!.default_shipping),
-    billingAddress: addresses?.find((addr) => addr!.default_billing),
+    shippingAddress: addresses.find((addr) => addr.default_shipping),
+    billingAddress: addresses.find((addr) => addr.default_billing),
   }
 }

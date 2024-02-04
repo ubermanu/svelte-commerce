@@ -10,6 +10,6 @@ export const load: ServerLoad = async ({ locals }) => {
   )
 
   return {
-    orders: customer?.orders?.items ?? [],
+    orders: customer?.orders ?? [],
   }
 }

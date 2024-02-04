@@ -15,7 +15,7 @@ export const load: ServerLoad = async ({ params }) => {
   return {
     category,
     streamed: {
-      products: getCategoryProducts(category.id!),
+      products: getCategoryProducts(category.id),
     },
   }
 }

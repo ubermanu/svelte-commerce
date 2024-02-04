@@ -1,21 +1,14 @@
 <script lang="ts">
   import Message from '$lib/components/Message.svelte'
   import PageTitle from '$lib/components/PageTitle.svelte'
+  import type { CustomerOrders } from '$lib/generated/graphql'
 
-  interface OrderData {
-    id: number
-    number: string
-    status: string
-    grand_total: number
-    created_at: string
-  }
-
-  export let data: { orders: { items: OrderData[] } }
+  export let data: { orders: CustomerOrders }
 </script>
 
 <PageTitle>My Orders</PageTitle>
 
-{#if data?.orders?.items.length > 0}
+{#if data.orders?.items.length > 0}
   {#each data.orders.items as order}
     <div>{order.number}</div>
   {/each}

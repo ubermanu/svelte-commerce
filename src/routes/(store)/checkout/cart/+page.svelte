@@ -1,12 +1,11 @@
 <script>
-  // @ts-nocheck
   import PriceBox from '$lib/components/PriceBox.svelte'
   import { formatPrice } from '$lib/helpers/price'
 
   export let data
 </script>
 
-{#if data.cart && data.cart.items && data.cart.items.length > 0}
+{#if data.cart && data.cart.items.length > 0}
   <table>
     <thead>
       <tr>
@@ -53,22 +52,18 @@
     </tbody>
     {#if data.cart.prices}
       <tfoot>
-        {#if data.cart.prices.subtotal_including_tax?.value}
-          <tr>
-            <td colspan="4">Subtotal</td>
-            <td>
-              {formatPrice(data.cart.prices.subtotal_including_tax.value)}
-            </td>
-          </tr>
-        {/if}
-        {#if data.cart.prices.grand_total?.value}
-          <tr>
-            <td colspan="4">Total</td>
-            <td>
-              {formatPrice(data.cart.prices.grand_total.value)}
-            </td>
-          </tr>
-        {/if}
+        <tr>
+          <td colspan="4">Subtotal</td>
+          <td>
+            {formatPrice(data.cart.prices.subtotal_including_tax.value)}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">Total</td>
+          <td>
+            {formatPrice(data.cart.prices.grand_total.value)}
+          </td>
+        </tr>
       </tfoot>
     {/if}
   </table>
