@@ -17,7 +17,7 @@ export const load: ServerLoad = async ({ url, depends }) => {
     sortDirection,
   }
 
-  const products = await searchProducts(query ?? '', toolbar)
+  const products = searchProducts(query ?? '', toolbar)
 
   return {
     query,
